@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "game-interaction-prd-expander/coverage-contract/1.0",
+  "concern": "analysis-coverage",
+  "purpose": "Verify that source-analysis.json is actually represented in interaction-model.json before renderer payload generation.",
+  "artifacts": {
+    "source": "source-analysis.json",
+    "model": "interaction-model.json",
+    "report": "analysis-coverage.validation.json"
+  },
+  "rules": {
+    "sourceCoverageRequired": "interaction-model.json must include sourceCoverage[] entries that map source-analysis item ids to model ids.",
+    "allSourceItemsCovered": "Every source-analysis item must be mapped before rendering.",
+    "refsMustExist": "Every mappedTo id must exist in modules, interfaces, flow ids, flow node ids, wireframe element ids, or overview.",
+    "interfaceCoverage": "Every interface candidate maps to at least one IF-* id.",
+    "flowCoverage": "Every flow candidate maps to at least one FLOW-* or NODE-* id.",
+    "riskCoverage": "Risks and AI pending questions map to concrete interface or element ids.",
+    "overviewIsDesignProblem": "1.0 overview must describe design/player interaction problems, not only summarize gameplay mechanics."
+  },
+  "sourceCoverageEntry": {
+    "required": ["sourceId", "mappedTo", "coverageType", "rationale"],
+    "coverageTypeEnum": ["overview", "module", "interface", "flow", "wireframe", "note", "aiPending", "redDot"]
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "game-interaction-prd-expander/wireframe-contract/1.0",
+  "concern": "wireframe",
+  "appliesTo": "featureModules[].subsections[].interfaces[].wireframe",
+  "purpose": "Constrain 4.0 low-fidelity game interface design briefs before LLM draws inside the Figma template scaffold.",
+  "enums": {
+    "surface": ["panel", "full-screen", "modal", "result", "external-surface"],
+    "surfaceType": ["primaryOperation", "selection", "confirmation", "successFeedback", "systemFeedback", "externalSurface"],
+    "layoutIntent": ["primaryOperation", "selection", "confirmation", "successFeedback", "systemFeedback", "externalSurface"],
+    "regionRole": ["navigation", "inventory", "preview", "detail", "filter", "status", "materials", "price", "quantity", "result", "feedback", "systemNotice"],
+    "controlRole": ["primaryAction", "secondaryAction", "confirm", "cancel", "select", "filter", "sort", "quantity", "input", "close", "return"],
+    "regionType": ["navigation", "list", "detail", "preview", "inventory", "result", "feedback", "filter"],
+    "controlType": ["primaryButton", "secondaryButton", "tab", "toggle", "stepper", "input", "iconButton"],
+    "stateType": ["default", "selected", "disabled", "empty", "loading", "success", "failure", "locked"]
+  },
+  "rules": {
+    "elementIdsRequired": "Every region, control, state, and feedback item must have a stable id so notes and flows can reference it.",
+    "playerVisibleOnly": "Wireframes describe player-visible UI states, controls, and feedback, not backend logic diagrams or mechanism summaries.",
+    "sourceOrPending": "Every visible element must be source-backed or referenced by AI pending-confirmation notes.",
+    "leftFrameOnly": "Renderer draws inside the template left frame and must not replace the frame shell.",
+    "layoutIntentOptional": "surfaceType/layoutIntent may guide LLM thinking, but they must not let renderer code replace LLM interface design with a generic list.",
+    "systemMechanismPlacement": "Background refresh/reset/settlement mechanisms should be represented as related interface states, feedback, mail/reminder, or notes, not as standalone player flow wireframes."
+  },
+  "schema": {
+    "type": "object",
+    "required": ["surface", "primaryTask", "regions", "controls", "states"],
+    "fields": {
+      "surface": { "type": "string" },
+      "surfaceType": { "type": "string" },
+      "layoutIntent": { "type": "string" },
+      "primaryTask": { "type": "string", "nonEmpty": true },
+      "description": { "type": "string" },
+      "regions": { "type": "array", "minItems": 1 },
+      "controls": { "type": "array" },
+      "states": { "type": "array" },
+      "feedback": { "type": "array" },
+      "modal": { "type": ["object", "null"] },
+      "toast": { "type": ["object", "null"] }
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "game-interaction-prd-expander/interaction-model-contract/1.0",
+  "concern": "interaction-model",
+  "purpose": "Define the verified intermediate model shared by 3.0 flows, 4.0 wireframes, right-side notes, and renderer payloads. Contracts define structure, never project-specific feature names.",
+  "sourceOfTruth": {
+    "artifact": "interaction-model.json",
+    "renderersMayInferMissingSemantics": false,
+    "sharedIds": [
+      "featureModules[].id",
+      "interfaces[].id",
+      "wireframe.*[].id",
+      "flows[].nodes[].interfaceId",
+      "flows[].nodes[].stateId",
+      "notes[].targetElementId"
+    ]
+  },
+  "rules": {
+    "semanticBeforeRendering": "Build and validate this model before any Figma rendering.",
+    "singleModelProjection": "3.0 flow nodes, 4.0 wireframes, and right-side notes must reference the same interface, state, and element ids.",
+    "llmOwnsSemantics": "The model guides LLM design decisions; it must not force renderer-owned generic layouts to replace player-flow or interface-design judgment.",
+    "contentFirst": "Renderer transport limits must never cause loss of interface rows, wireframe controls/states/feedback, notes, or AI pending content.",
+    "versionHistoryPreserved": "overview.versionHistory[] is the preferred version record format. First generation may contain one row; later iterations append rows rather than overwrite history.",
+    "noTemplatePathSemantics": "Template sample layout or connector order must never create player-flow semantics.",
+    "evidenceRequired": "Flow edges and notes must carry source evidence or an explicit inferred-gap basis.",
+    "utf8Required": "Artifacts must be UTF-8 without BOM and LF. Damaged text such as replacement characters, question-mark blocks, or mojibake must fail."
+  },
+  "schema": {
+    "type": "object",
+    "required": ["schemaVersion", "overview", "flows", "featureModules"],
+    "fields": {
+      "schemaVersion": { "type": "string", "nonEmpty": true },
+      "overview": { "type": "object", "fields": { "versionHistory": { "type": "array" } } },
+      "flows": { "type": "array", "minItems": 1 },
+      "featureModules": { "type": "array", "minItems": 1 },
+      "redDot": { "type": ["object", "null"] },
+      "extension": { "type": ["object", "null"] }
+    }
+  }
+}

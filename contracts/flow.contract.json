@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "game-interaction-prd-expander/flow-contract/1.0",
+  "concern": "feature-flow",
+  "appliesTo": "flows[]",
+  "purpose": "Constrain 3.0 feature flows as player relationship graphs derived from the interaction model.",
+  "enums": {
+    "relationshipType": [
+      "navigation",
+      "stateChange",
+      "systemFeedback",
+      "branchDecision",
+      "returnPath",
+      "externalSurface"
+    ]
+  },
+  "rules": {
+    "nodesUseInterfaces": "Every node must reference an interfaceId or stateId from 4.0 unless it is a clearly named external surface.",
+    "edgesAreSourceOfTruth": "Every visible connector must come from an edge; renderer must not invent connectors from template order.",
+    "evidenceRequired": "Every edge requires evidence explaining the PRD/wiki/prototype source or inferred-gap reason.",
+    "participationRequired": "Every node in a multi-node flow must participate in at least one edge.",
+    "multipleFlowsAllowed": "Create separate flows for independent player goals instead of forcing unrelated nodes into one diagram.",
+    "playerInitiatedOnly": "3.0 flows only show player-active operation paths. Daily refresh, weekly reset, forced settlement, mail fallback, and backend synchronization are not standalone flows unless the source explicitly requires player entry/action.",
+    "systemMechanismsGoToNotes": "System mechanisms should be represented in 4.0 notes, states, toast/mail/reminder feedback, or red-dot clues."
+  },
+  "schema": {
+    "type": "object",
+    "required": ["flowId", "title", "nodes", "edges"],
+    "fields": {
+      "flowId": { "type": "string", "pattern": "^FLOW-[0-9]{3}$" },
+      "title": { "type": "string", "nonEmpty": true },
+      "nodes": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": ["id", "title"],
+          "fields": {
+            "id": { "type": "string", "pattern": "^NODE-[0-9]{3}$" },
+            "title": { "type": "string", "nonEmpty": true },
+            "interfaceId": { "type": "string" },
+            "stateId": { "type": "string" },
+            "caption": { "type": "string" },
+            "slot": { "type": "string" }
+          }
+        }
+      },
+      "edges": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["from", "to", "label", "relationshipType", "evidence"],
+          "fields": {
+            "from": { "type": "string", "nonEmpty": true },
+            "to": { "type": "string", "nonEmpty": true },
+            "label": { "type": "string", "nonEmpty": true },
+            "relationshipType": { "type": "string" },
+            "evidence": { "type": "string", "nonEmpty": true }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "game-interaction-prd-expander/render-contract/1.0",
+  "concern": "figma-render",
+  "purpose": "Constrain the official Figma output generated from a validated interaction model and manifest template.",
+  "inputArtifact": "render-payload.json",
+  "officialRecords": {
+    "rendererVersion": "manifest-renderer-v0.9",
+    "rendererScriptHash": "render-brief-board:scaffold-llm-content:2026-06-24",
+    "validatorVersion": "manifest-validator-v1.0",
+    "validatorScriptHash": "figma-board-validator:scaffold-llm-content:2026-06-24",
+    "gateVersion": "official-board-gate-v0.6"
+  },
+  "rules": {
+    "manifestOnly": "Render only through the manifest scaffold renderer and cloned template prototypes.",
+    "contentFirst": "Preserve complete interaction content. Split generated scripts by module/interface row instead of truncating notes, wireframe elements, states, feedback, modal, toast, or AI待确认 content.",
+    "llmOwnsContent": "LLM owns PRD interpretation, 1.0 product positioning, 3.0 player-flow drawing, 4.0 low-fidelity interface drawing, right-side notes, and AI待确认. Code owns scaffold, template boundaries, style locks, validator, and gate.",
+    "noFallbackNodes": "Forbidden fallback node names must not appear in visible output.",
+    "noTemplateResidue": "Visible template placeholders such as 注释内容, 动效描述, 备注内容（非必须）, 界面名称, 原型, or 副标题 must fail validation.",
+    "dynamicLayout": "4.0 interface rows, modules, footer, and board height must move according to actual rendered content height and must not overlap.",
+    "styleLocked": "1.0-4.0 major titles, 3.0 flow names, 4.0 major/sub/interface titles, top floating header, discipline labels, and numbered note text must preserve template style; text content may change.",
+    "wireframesAreInterfaces": "Low-fidelity wireframes must be LLM-drawn plausible player-visible interfaces with controls, states, feedback, and action closure, not generic region labels or rule cards.",
+    "flowDetailTraceability": "Every 3.0 flow node must trace to a 4.0 interface or state, and 4.0 must expand every referenced player-visible interface/state.",
+    "countsMatchModel": "Rendered flow nodes, flow edges, feature interface rows, wireframes, notes, and AI待确认 notes must match the validated model.",
+    "modelStored": "The board must store the validated interaction model or its hash in shared data.",
+    "semanticReviewRequired": "Validator pass is structural only; LLM semantic review from interaction-designer and player perspectives is required before delivery."
+  }
+}

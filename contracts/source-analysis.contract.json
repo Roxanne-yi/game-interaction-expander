@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "game-interaction-prd-expander/source-analysis-contract/1.0",
+  "concern": "source-analysis",
+  "purpose": "Constrain the LLM-owned PRD reading pass before interaction-model generation. This artifact proves the model has extracted source mechanisms, interfaces, flows, states, risks, and AI pending questions before Figma rendering.",
+  "artifact": "source-analysis.json",
+  "rules": {
+    "llmOwned": "LLM reads the PRD/wiki/DOCX/PDF and writes this artifact; code validates coverage and structure.",
+    "evidenceRequired": "Every item must include source evidence or a precise source-derived rationale.",
+    "noRendererGeometry": "Do not include Figma coordinates, template slots, or renderer layout decisions.",
+    "noThinSummary": "Do not replace mechanism/interface/flow/state/risk lists with a high-level feature summary."
+  },
+  "schema": {
+    "type": "object",
+    "required": [
+      "schemaVersion",
+      "source",
+      "overviewFindings",
+      "keyMechanisms",
+      "interfaceCandidates",
+      "flowCandidates",
+      "statesAndFeedback",
+      "risksAndGaps",
+      "aiPendingQuestions"
+    ],
+    "fields": {
+      "schemaVersion": { "type": "string", "nonEmpty": true },
+      "source": { "type": "object" },
+      "overviewFindings": { "type": "object" },
+      "keyMechanisms": { "type": "array", "minItems": 3 },
+      "interfaceCandidates": { "type": "array", "minItems": 2 },
+      "flowCandidates": { "type": "array", "minItems": 1 },
+      "statesAndFeedback": { "type": "array", "minItems": 2 },
+      "risksAndGaps": { "type": "array", "minItems": 1 },
+      "aiPendingQuestions": { "type": "array", "minItems": 1 }
+    }
+  },
+  "itemShape": {
+    "required": ["id", "title", "description", "evidence"],
+    "idPattern": "^SA-[A-Z]+-[0-9]{3}$"
+  }
+}

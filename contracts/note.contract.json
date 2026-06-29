@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "game-interaction-prd-expander/note-contract/1.0",
+  "concern": "right-side-note",
+  "appliesTo": "featureModules[].subsections[].interfaces[].notes[]",
+  "purpose": "Constrain 4.0 right-side explanations as target-bound designer-facing notes.",
+  "enums": {
+    "tag": ["策划注意", "程序注意", "UI注意", "动效注意", "UIFX注意", "VFX注意", "音效注意", "美术注意", "动画注意", "更新", "AI待确认"],
+    "basis": ["sourceExplicit", "prototypeVisible", "inferredGap", "sourceConflict", "designRisk", "ruleGenerated"],
+    "coverage": ["purpose", "moduleComposition", "keyStates", "playerActions", "postActionChanges", "feedback", "aiPending"]
+  },
+  "rules": {
+    "targetRequired": "Every note must target an interface element id, not only the whole interface.",
+    "basisRequired": "Every note states whether it came from explicit source, visible prototype evidence, inferred gap, conflict, design risk, or generated rule.",
+    "noGenericTargetAlone": "Targets such as button, area, text, or screen are too generic unless bound to a stable targetElementId.",
+    "bodyNoMeta": "Do not write meta instructions such as draw this, AI should, left side, or right side.",
+    "semanticTag": "Tags are selected from note body and target semantics, not copied from template defaults. Use the interaction-spec-generator attention taxonomy when choosing discipline labels.",
+    "templateTagStyle": "Figma output must use template discipline-tag components and numbered-note components; hand-drawn black label rectangles are not acceptable.",
+    "completeInteractionExplanation": "Across notes for each interface, cover purpose, module composition, key states, player actions, post-action changes, feedback, and AI pending confirmations.",
+    "aiPendingIndependent": "AI待确认 remains an explicit red warning note and must not be diluted into ordinary attention notes."
+  },
+  "schema": {
+    "type": "object",
+    "required": ["tag", "targetElementId", "body", "basis", "evidence", "coverage"],
+    "fields": {
+      "tag": { "type": "string" },
+      "targetElementId": { "type": "string", "nonEmpty": true },
+      "body": { "type": "string", "nonEmpty": true },
+      "basis": { "type": "string" },
+      "evidence": { "type": "string", "nonEmpty": true },
+      "coverage": { "type": "array", "minItems": 1 }
+    }
+  }
+}

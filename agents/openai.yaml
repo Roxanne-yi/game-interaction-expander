@@ -1,0 +1,4 @@
+interface:
+  display_name: "Game Interaction PRD Expander"
+  short_description: "Turn game PRDs into interaction-ready Figma briefs."
+  default_prompt: "Use $game-interaction-prd-expander to convert this game PRD/wiki/PDF/DOCX/HTML prototype into an interaction-ready Figma brief."

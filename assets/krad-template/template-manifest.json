@@ -1,0 +1,262 @@
+{
+  "schema_version": "0.3",
+  "official_pipeline": {
+    "renderer_version": "manifest-renderer-v0.9",
+    "validator_version": "manifest-validator-v1.0",
+    "official_gate_version": "official-board-gate-v0.6"
+  },
+  "source_template": {
+    "figma_file_key": "RbcXtsnRIfCVUXRjUXW99x",
+    "figma_url": "https://www.figma.com/design/RbcXtsnRIfCVUXRjUXW99x/%E8%AE%BE%E8%AE%A1%E7%AE%A1%E7%BA%BF%E7%A0%94%E7%A9%B6?node-id=1184-1331",
+    "node_id": "1184:1331",
+    "node_name": "原型案画板1.0",
+    "node_type": "COMPONENT",
+    "width": 3500,
+    "height": 9228
+  },
+  "namespace": "game_interaction_prd_expander",
+  "global_section_rules": {
+    "single_instance_sections": ["1.0", "2.0", "3.0", "4.0"],
+    "optional_single_instance_sections": ["5.0"],
+    "module_expansion_scope": "Only expand feature-detail module prototypes under 4.0. Do not duplicate 1.0, 2.0, 3.0, or the 4.0 section header per module."
+  },
+  "style_tokens": {
+    "warning_red": {
+      "fill": "#D92D20",
+      "text": "#FFFFFF",
+      "purpose": "AI待确认 label derived from the template label/tag style."
+    },
+    "screen_placeholder_fill": "#F2F2F2"
+  },
+  "slots": {
+    "header": {
+      "fixed_style": true,
+      "bar_frame": "1184:1243",
+      "background": "1184:1240",
+      "brand_assets": [
+        "1184:1241",
+        "1184:1242"
+      ],
+      "text_slots": {
+        "project_title": {
+          "node": "1184:1245",
+          "default_text": "【Alpha 1.0】原型案名称",
+          "policy": "Fill when source exists; otherwise preserve placeholder. Text-only edit."
+        },
+        "planner_owner": {
+          "node": "1184:1246",
+          "default_text": "策划 XXX",
+          "policy": "Fill when source exists; otherwise preserve placeholder. Text-only edit."
+        },
+        "ued_owner": {
+          "node": "1184:1247",
+          "default_text": "UED XXX",
+          "policy": "Fill when source exists; otherwise preserve placeholder. Text-only edit."
+        },
+        "date": {
+          "node": "1184:1248",
+          "default_text": "1999.99.99",
+          "policy": "Fill generation date unless explicitly preserved. Text-only edit."
+        }
+      }
+    },
+    "overview": {
+      "section_number": "1184:1064",
+      "section_title": "1184:1065",
+      "divider": "1184:1066",
+      "layout_policy": "Always preserve asymmetric layout. Never render equal-width cards.",
+      "fixed_question_nodes": [
+        "1184:1083",
+        "1184:1085",
+        "1184:1089"
+      ],
+      "body_slots": {
+        "problem": {
+          "container": "1184:1328",
+          "body": "1184:1078",
+          "fixed_question": "1184:1083",
+          "fixed_question_text": "设计背景和要解决的问题"
+        },
+        "target_audience": {
+          "container": "1184:1329",
+          "body": "1184:1080",
+          "fixed_question": "1184:1085",
+          "fixed_question_text": "针对哪些人群？"
+        },
+        "expected_effect": {
+          "container": "1184:1330",
+          "body": "1184:1087",
+          "fixed_question": "1184:1089",
+          "fixed_question_text": "期望达到怎样效果？"
+        }
+      },
+      "version_table": {
+        "container": "1184:1090",
+        "header": "1184:1091",
+        "row_prototypes": [
+          "1184:1110",
+          "1184:1111",
+          "1184:1112"
+        ],
+        "first_generation_rule": "Keep table header plus one filled row.",
+        "iteration_rule": "Append a new row below existing rows; do not overwrite history."
+      }
+    },
+    "adaptation": {
+      "default_policy": "preserve_empty",
+      "frames": [
+        "1184:1125",
+        "1184:1137",
+        "1184:1131"
+      ],
+      "department_tag": "1184:1144"
+    },
+    "flow": {
+      "section_number": "1184:1116",
+      "section_title": "1184:1117",
+      "divider": "1184:1118",
+      "flow_name_chip": "1184:1145",
+      "flow_name_text": "1184:1146",
+      "diagram_group": "1184:1147",
+      "screen_node_prototypes": [
+        {
+          "group": "1184:1148",
+          "title": "1184:1151",
+          "placeholder": "1184:1152"
+        },
+        {
+          "group": "1184:1160",
+          "title": "1184:1163",
+          "placeholder": "1184:1164"
+        },
+        {
+          "group": "1184:1165",
+          "title": "1184:1168",
+          "placeholder": "1184:1169"
+        },
+        {
+          "group": "1184:1170",
+          "title": "1184:1173",
+          "placeholder": "1184:1174"
+        },
+        {
+          "group": "1184:1175",
+          "title": "1184:1178",
+          "placeholder": "1184:1179"
+        },
+        {
+          "group": "1184:1180",
+          "title": "1184:1183",
+          "placeholder": "1184:1184"
+        },
+        {
+          "group": "1184:1185",
+          "title": "1184:1188",
+          "placeholder": "1184:1189"
+        }
+      ],
+      "connector_prototypes": [
+        "1184:1154",
+        "1184:1155",
+        "1184:1156",
+        "1184:1157",
+        "1184:1158",
+        "1184:1159"
+      ],
+      "condition_label": "1184:1153",
+      "rules": [
+        "Each flow block must have flow name, node diagram, connectors, and condition labels.",
+        "Each node contains only interface name and screen placeholder.",
+        "Main flow comes first. Secondary flows get their own flow name and diagram.",
+        "Branches and judgment nodes may be derived from player flow.",
+        "flow.edges is the source of truth for connectors; the template sample path is not player logic."
+      ]
+    },
+    "feature_detail": {
+      "section_number": "1184:1119",
+      "section_title": "1184:1120",
+      "divider": "1184:1121",
+      "module_block": {
+        "start": "1184:1322",
+        "end_before": "1184:1325",
+        "module_gap": 180
+      },
+      "major_title": {
+        "container": "1184:1322",
+        "chip": "1184:1056",
+        "text": "1184:1057",
+        "note_chip": "1184:1058",
+        "note_text": "1184:1059"
+      },
+      "subtitle": {
+        "container": "1184:1323",
+        "chip": "1184:1190",
+        "text": "1184:1191",
+        "note_chip": "1184:1054",
+        "note_text": "1184:1055"
+      },
+      "interface": {
+        "title": "1184:1192",
+        "screen_frame": "1184:1195"
+      },
+      "additional_subtitle": {
+        "container": "1184:1324",
+        "title": "1184:1203",
+        "screen_frame": "1184:1206"
+      },
+      "right_notes": {
+        "department_tags": [
+          "1184:1208",
+          "1184:1209",
+          "1184:1210",
+          "1184:1215"
+        ],
+        "note_groups": [
+          "1184:1211",
+          "1184:1216"
+        ],
+        "rules": [
+          "Label/tag stays above the explanation group.",
+          "Explanation lines are numbered.",
+            "AI待确认 derives from the tag style and uses warning_red.",
+            "Every 4.0 major module requires at least one visible AI待确认 note.",
+            "Right-side labels must be selected from actual note content, not copied from template defaults.",
+            "Every subsection/interface in the payload must render as a complete interface row."
+        ]
+      },
+      "hierarchy_rule": "major function = 主标题; minor function = 副标题; interface explanation = 界面标题 + left wireframe + right notes."
+    },
+    "red_dot": {
+      "major_title": {
+        "container": "1184:1325",
+        "chip": "1184:1062",
+        "text": "1184:1063",
+        "note_chip": "1184:1060",
+        "note_text": "1184:1061"
+      },
+      "subtitle": {
+        "container": "1184:1326",
+        "chip": "1184:1222",
+        "text": "1184:1223",
+        "note_chip": "1184:1220",
+        "note_text": "1184:1221"
+      },
+      "interface_title": "1184:1224",
+      "screen_frame": "1184:1227",
+      "note_tag": "1184:1230",
+      "note_group": "1184:1231"
+    },
+    "footer": {
+      "node": "1184:1235",
+      "policy": "Move to board bottom when height expands; do not redraw."
+    }
+  },
+  "forbidden": [
+    "Do not edit source template node.",
+    "Do not hand-draw existing template chips, labels, version rows, dividers, or screen frames.",
+    "Do not change top floating bar style.",
+    "Do not fill 2.0 adaptation by default.",
+    "Do not render 1.0 as equal-width cards.",
+    "Do not fall back to freehand drawing when a slot is missing."
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "game-interaction-prd-expander/ai-pending-contract/1.0",
+  "concern": "ai-pending-confirmation",
+  "appliesTo": "notes[] where tag is AI待确认",
+  "purpose": "Keep AI follow-up questions visible, specific, and tied to unresolved interaction decisions.",
+  "rules": {
+    "visibleInEveryMajorModule": "Every major 4.0 module must include at least one visible AI待确认 note.",
+    "notGenericQa": "AI待确认 should lead with missing player-facing decisions, conflicts, or design risks, not only edge-case QA.",
+    "targetRequired": "AI待确认 still targets a concrete element/state/control id.",
+    "warningStyle": "Figma output must render AI待确认 with the manifest warning red family."
+  },
+  "schema": {
+    "type": "object",
+    "required": ["tag", "targetElementId", "body", "basis", "evidence"],
+    "fields": {
+      "tag": { "type": "string", "enum": ["AI待确认"] },
+      "targetElementId": { "type": "string", "nonEmpty": true },
+      "body": { "type": "string", "nonEmpty": true },
+      "basis": { "type": "string", "enum": ["inferredGap", "sourceConflict", "designRisk", "ruleGenerated"] },
+      "evidence": { "type": "string", "nonEmpty": true }
+    }
+  }
+}
