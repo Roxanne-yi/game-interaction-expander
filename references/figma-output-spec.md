@@ -6,24 +6,40 @@ The board is not a PRD summary. It is a translation from planning facts into pro
 
 For left-side wireframe usability, apply [wireframe-design-principles.md](wireframe-design-principles.md). Do not expose that reference as visible methodology.
 
-For Figma execution, apply [figma-execution-protocol.md](figma-execution-protocol.md). The default path is direct `use_figma` drawing; renderer and validator scripts are not part of the workflow.
+For Figma execution, apply [figma-execution-protocol.md](figma-execution-protocol.md). The default path is direct `use_figma` drawing inside a cloned template shell; renderer and validator scripts are not part of the workflow.
 
-## 1. Destination and Template
+## 1. Destination And Template
 
 Default template:
 
 `https://www.figma.com/design/RbcXtsnRIfCVUXRjUXW99x/%E8%AE%BE%E8%AE%A1%E7%AE%A1%E7%BA%BF%E7%A0%94%E7%A9%B6?node-id=1184-1331&t=noJVA0YdED8KTxqt-4`
 
+Default template node:
+
+`1184:1331`
+
 Rules:
 
 - Require a Figma destination before generating.
 - Use the user-provided template/page when present; otherwise use the default template above.
-- Replaceable does not mean restylable. The active template is a strict visual language contract.
-- Clone or visually follow the active template before drawing generated content.
+- Read `assets/krad-template/template-manifest.json` before writing. Use node IDs, slot IDs, prototype IDs, and English semantic keys; ignore corrupted Chinese display names in the manifest.
+- The board must be derived from the active template by cloning, duplicating, or instancing the template node.
+- Replaceable does not mean restylable. The active template is a strict visual and structural contract.
 - Preserve colors, typography, spacing rhythm, title badges, note labels, section order, top floating/header, footer, background, placeholder dimensions, and component styling.
 - Do not shrink template text styles to fit dense content. Shorten wording, extend the module, or push later modules down.
 - If more space is needed, extend the board height and move the footer.
-- If exact cloning is blocked, report the blocker and preserve the template visually; do not switch to a renderer or draw an unrelated freeform board.
+- If exact cloning, slot lookup, or prototype reuse is blocked, stop and report the blocker. Do not visually imitate the template or draw an unrelated freeform board unless the user explicitly authorizes that exception.
+
+Do not hand-draw these template-owned elements:
+
+- top floating/header area
+- logo/image decoration
+- section number/title/divider
+- `1.0` overview card shell and version rows
+- `2.0` adaptation placeholders
+- `3.0` flow-name chips and node shells
+- `4.0` major title chips, subtitle chips, interface-name labels, note labels, and `1334x750` screen-frame shells
+- footer
 
 ## 2. Board Structure
 
@@ -41,7 +57,7 @@ Do not create visible sections named after internal artifacts such as `analysis 
 
 ## 3. Design Overview
 
-`1.0` must keep the template's asymmetric layout.
+`1.0` must keep the template's asymmetric layout. Only replace answer/body text and version-row text. Do not redraw the overview cards.
 
 Product positioning must answer:
 
@@ -73,8 +89,8 @@ A good main flow shape is:
 
 Each flow block should contain:
 
-- Flow name.
-- Player-visible screen/state nodes.
+- Flow name in cloned template flow-name style.
+- Player-visible screen/state nodes in cloned template node style.
 - Connectors.
 - Condition labels.
 
@@ -89,6 +105,14 @@ Do not draw backend refresh, weekly reset, system settlement, permission matrix,
 - Major function = one complete module block.
 - Minor function = one subtitle group.
 - Interface/state explanation = one interface title plus left wireframe and right-side note group.
+
+Template-owned parts must be cloned or reused before text is edited:
+
+- major function title chip and note chip
+- minor function subtitle chip and note chip
+- interface-name label
+- `1334x750` screen-frame shell
+- right-side discipline label and numbered note group
 
 Module organization:
 
@@ -123,7 +147,7 @@ Not allowed as a left-side game frame:
 
 If mechanism content matters, anchor it to a visible UI result: updated value, disabled button reason, refreshed list, toast, modal, red dot, mail, return state, or right-side note.
 
-## 8. State and Feedback Splitting
+## 8. State And Feedback Splitting
 
 One wireframe represents one player-visible state.
 
@@ -139,7 +163,7 @@ Split these when the player sees a different stage over time:
 
 Do not merge a primary operation with its result surface when the result changes what the player sees or receives. For make/craft/cook/claim/send/sell/save/replace/invite actions, account for success feedback, reward/result display, data refresh, and return state.
 
-## 9. Right-Side Notes and AI Pending
+## 9. Right-Side Notes And AI Pending
 
 Right-side notes are designer-facing PRD translation. They should explain the related left-side interface, not replace it.
 
@@ -153,7 +177,7 @@ Valid note content:
 - designer decision prompt: feedback strength, recognition priority, decision clarity, visual/audio/VFX hierarchy
 - `AI待确认`: missing, conflicting, or inferred decision that affects design
 
-Use meaningful labels such as `策划注意`, `程序注意`, `UI注意`, `UIFX注意`, `VFX注意`, `音效注意`, `美术注意`, `动画注意`, `更新`, and `AI待确认`.
+Use meaningful labels: `策划注意`, `程序注意`, `UI注意`, `UIFX注意`, `VFX注意`, `音效注意`, `美术注意`, `动画注意`, `更新`, and `AI待确认`.
 
 `AI待确认` should expose design risks first, not only edge-case QA:
 
@@ -184,7 +208,8 @@ If the content is a function risk, boundary, state, or rule, keep it in `4.0`.
 Before responding:
 
 - Screenshot the board and inspect the actual visual result.
-- Confirm the default/user-provided template visual language is preserved.
+- Confirm the board is derived from the default/user-provided template, not visually imitated.
+- Confirm no hand-drawn replacement of template chrome exists.
 - Confirm no old placeholder body content remains.
 - Confirm `1.0` explains product intent, not a feature summary.
 - Confirm `3.0` is goal-level player flow, not backend mechanism flow.
@@ -192,6 +217,6 @@ Before responding:
 - Confirm every `1334x750` frame is player-visible UI, not a rule card or support diagram.
 - Confirm material selection, empty states, confirmation, success/failure feedback, result/reward, mail/claim, and refreshed return states are split when relevant.
 - Confirm daily refresh, weekly forced recovery, permission rules, and system settlement are anchored to visible UI consequences rather than drawn as standalone screens.
-- Confirm right-side notes explain purpose, module composition, states, operation, post-action changes, feedback, exceptions, and AI pending.
-- Confirm AI pending items expose design risks and decision gaps.
+- Confirm right-side notes explain purpose, module composition, states, operation, post-action changes, feedback, exceptions, and `AI待确认`.
+- Confirm `AI待确认` items expose design risks and decision gaps.
 - Confirm modules and notes do not overlap; footer sits after final content with safe spacing.
