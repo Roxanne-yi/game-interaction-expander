@@ -34,6 +34,17 @@ Before drawing `4.0`, read `wireframe-design-principles.md`. It prevents mechani
 
 For every Figma write, use direct `use_figma` drawing inside a cloned template shell. Do not run renderer, validator, template-lock, generated script, or fallback renderer workflows.
 
+
+## Encoding Safety
+
+This skill is Chinese-heavy. Treat encoding as a hard reliability rule:
+
+- Keep all skill text files as UTF-8 without BOM and LF line endings.
+- On Windows, prefer PowerShell or .NET file APIs for file IO, but always read and write explicitly as UTF-8.
+- When writing files from PowerShell, use a no-BOM UTF-8 writer such as `[System.Text.UTF8Encoding]::new($false)` instead of relying on default encoding.
+- When running Python checks, use UTF-8 mode, for example `python -X utf8 ...`, or open files with `encoding='utf-8'`.
+- Do not pass large Chinese payloads through bare shell strings when a file path, direct tool argument, or Figma node text write is available.
+- If obvious mojibake, replacement characters, repeated question marks, or broken UTF-8/GBK-looking fragments appear, stop and fix the source text before generating a Figma board.
 ## Template Contract
 
 Default to this template unless the user explicitly provides another template in the current request:
