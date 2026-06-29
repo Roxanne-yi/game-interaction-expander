@@ -52,15 +52,21 @@ For every left-side player-screen frame, ask:
 
 Could this plausibly be a game screenshot that a player can see, tap, wait on, close, or return from?
 
+If the content is only refresh/reset/settlement/order/quota/limit logic, it is not a screen. It must be localized to the owning interface, a toast/local tip, a source-defined external surface, or a right-side note.
+
 If not, move the content to right-side notes, support diagrams, state matrices, or AI follow-up questions. Do not disguise mechanism summaries, refresh schedules, ownership rules, permission matrices, backend logic, or QA lists as game screens.
 
 ## 4. Flow Ownership Gate
 
 Feature flow must be organized by player goals, not PRD section order.
 
+Before judging the board, confirm there is a clear internal `Flow inventory` and `Screen inventory`: each player-visible `3.0` node maps to a `4.0` interface/state, while non-screen mechanisms are intentionally classified as notes, external dependencies, or `AI待确认`.
+
 The main flow should usually follow:
 
-`entry -> main/key interface -> key operation -> validation/confirmation -> feedback/result -> return/loop`
+`entry -> main/key interface -> key operation -> validation/confirmation/resource consumption -> feedback/result/reward -> return/loop`
+
+Fail the flow if result, reward, or benefit delivery appears before validation, confirmation, or resource/cost consumption.
 
 Branch flows are only for player-operated subflows with their own goal, entry, operation loop, and destination. Examples include record/history, request/wish, receive/claim, save/manage, external jump, social collaboration, detail inspection, and secondary/tertiary interfaces that continue the task.
 
@@ -70,6 +76,7 @@ Flow readability must follow the template pattern:
 
 - Each step is readable as `external node title -> grey action card`, not as a generic card with a title buried inside.
 - Main flow should scan horizontally in one line when space allows; branch flows should be grouped separately without pretending to be the same sequence.
+- Template node count and placeholder position must not limit flow count, branch count, or causal order.
 - Flow cards should be short enough to understand the journey at a glance. Detailed validation, state sets, and exception rules belong in feature-detail modules.
 
 ## 5. Right-Side Explanation Gate
@@ -101,6 +108,7 @@ Multi-state state-strip gate:
 - Generic status cards count as a failure even if their text is correct, because they do not reduce the designer's work of translating states into interface expression.
 - The strip must pass a layout sanity check: no child text/UI overflows into nearby note text, and the card does not carry long rule descriptions that should be written in the note body.
 - Do not confuse component states with player-operation stages. A multi-state strip is for the same component changing appearance or availability. If the content is a sequence of player-visible stages or branches after an action, model it as separate frames, a compact flow, or module notes instead.
+- If multiple wireframes represent tabs, modes, or states of the same interface, the stable frame should remain consistent; if the frame changes substantially, it should be classified as a different surface.
 
 Avoid exposing AI method, internal chains, config tables, raw field names, backend-only issues, or "left side/right side should" instructions.
 
@@ -172,6 +180,7 @@ Ask whether the board can be used as a designer's next-step brief:
 - Are player screens truly operable wireframes, not rule cards, process cards, or backend diagrams?
 - Are visible controls, states, and feedback drawn instead of only described in text?
 - Is function ownership correct: main interface, secondary interface, helper operation, modal, result, external surface, and support material are not mixed together.
+- Do flow/screen inventories match: every player-visible flow node has a `4.0` interface/state, and mechanisms are not disguised as screens?
 - Does the flow include entry, operation, validation, result, return, and loop where needed?
 - Do AI follow-ups include logic completion, feature loop, and design reasonableness before boundary QA?
 - Are template fidelity, smart labels, spacing, and Figma composition clean enough that the viewer will focus on feature understanding instead of output mistakes?

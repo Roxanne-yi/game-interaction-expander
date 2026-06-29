@@ -97,14 +97,20 @@ Generated interaction content is high-freedom inside allowed areas:
    - Missing decision or design risk -> visible `AI待确认`.
    - Backend schedule, permission matrix, pricing formula, refresh order, or QA checklist -> never as a fake player screen; anchor it to a UI consequence or keep it in notes.
 
-5. Plan the board content directly.
+5. Build semantic inventories before Figma output.
+   - Create an internal `Flow inventory`: main flow and branch flows grouped by player goal.
+   - Create an internal `Screen inventory`: every player-visible `3.0` node maps to a `4.0` interface/state, or is explicitly classified as a rule, mechanism note, external dependency, or `AI待确认`.
+   - The template's default flow-node count is not a content limit. Add or remove flow blocks and nodes according to player goals and causal sequence.
+   - Do not let template placeholder order change causality: validation/confirmation/resource consumption comes before result, reward, or benefit delivery.
+
+6. Plan the board content directly.
    - Product meaning -> `1.0 Design overview`.
    - Goal-level player journey -> `3.0 Feature flow`.
    - Player-visible feature groups, states, and lifecycle stages -> `4.0 Feature details`.
    - Missing rules, contradictions, inferred decisions, and design risks -> visible `AI待确认` notes.
    - Red-dot rules -> only when in scope, and only as player-visible entry/status/clearing behavior or concise notes.
 
-6. Generate Figma output by template-first direct drawing.
+7. Generate Figma output by template-first direct drawing.
    - Load `figma-execution-protocol.md` before writing to Figma.
    - Clone/duplicate/instance the active template node first. Fill and extend that derived board; never build the board shell freehand.
    - Keep `1.0`, `2.0`, `3.0`, and `4.0` as single global sections. Multiple major functions expand only inside `4.0`; never clone the whole board scaffold per module.
@@ -115,7 +121,7 @@ Generated interaction content is high-freedom inside allowed areas:
    - Right-side notes must use cloned template label/note styling. `AI待确认` must be visible, red warning styled, and attached to the affected module/interface.
    - Extend board height and move later content/footer down as content grows.
 
-7. Verify before delivery.
+8. Verify before delivery.
    - Screenshot and inspect the board visually.
    - Use `output-quality-model.md` for semantic review: interaction designer view first, player view second.
    - Check template derivation: board cloned from `1184:1331` or user-provided template; no hand-drawn template chrome; `2.0` untouched; footer moved rather than redrawn.
@@ -143,6 +149,9 @@ Feature-detail modules must contain:
 
 - Do not run `render-brief-board.js`, generated renderer scripts, template-lock scripts, or validator scripts as the default path.
 - Do not freehand redraw the template shell. If cloning/slot/prototype use is blocked, stop and report the blocker.
+- Do not let template placeholder count or position limit flow count, flow order, or interface quantity.
+- Do not create standalone screens for backend refresh, reset, settlement, quota update, or mechanism-order rules; localize them to the owning interface, toast, note, or source-defined external surface.
+- Do not draw unrelated versions of the same interface; use a stable frame for tabs/modes/states, or classify the surface as different.
 - Do not summarize PRD text into Figma. Translate planning facts into product intent, player flows, player-visible UI states, designer notes, and design risks.
 - Do not turn the board into a config summary, operation-chain table, permission matrix, refresh schedule, or internal checklist.
 - Do not draw mechanism summaries inside game-screen wireframes.

@@ -94,9 +94,11 @@ Each flow block should contain:
 - Connectors.
 - Condition labels.
 
+Before drawing, create an internal `Flow inventory` and `Screen inventory`. The template's default node count is not a content limit. Flow order must follow player causality; validation, confirmation, and cost/resource consumption come before result, reward, refresh, or benefit delivery.
+
 Add secondary flows only when they have a distinct player goal, recognizable entry, operation loop, and return/destination. Examples: claim from mail, receive from another role, manage saved items, view record/history, external jump, visitor/owner branch.
 
-Do not draw backend refresh, weekly reset, system settlement, permission matrix, pricing order, or forced recycling order as player flows unless the player actively operates them. Convert them into `4.0` states, reminders, toast, mail, red-dot behavior, or right-side notes.
+Do not draw backend refresh, reset, settlement, permission matrix, pricing order, forced-order rules, quota updates, or limit updates as player flows unless the player actively operates them. Convert them into `4.0` local states, reminders, toast, source-defined external surfaces, red-dot behavior, or right-side notes.
 
 ## 6. Feature Detail Modules
 
@@ -116,11 +118,13 @@ Template-owned parts must be cloned or reused before text is edited:
 
 Module organization:
 
+- Lead with the player-visible entry surface when the source defines an in-world interaction point, building/lobby/HUD entry, external jump, or mail/claim entry in the current scope.
 - Lead with the main interface and its important tabs/modes/panel/helper states.
 - Then show primary action checks, confirmations, loading/performance stages, results, returns, secondary operation lifecycles, and cross-surface states.
 - Group internal logic under its owning interface. Do not turn every PRD heading into a separate wireframe.
 - If a helper fills, filters, sorts, recommends, repeats, or previews the main surface, show it as part of that surface, not as an equal top-level page.
 - If a true mode changes content model or operation goal, show it as a visible tab/mode/panel state.
+- Do not draw multiple unrelated versions of the same interface. For tabs, modes, or local states of the same interface, preserve the stable frame: title/close/back, navigation, main columns, and fixed controls. Change only the tab-controlled content, local state, overlay, or feedback layer unless the source implies a different surface.
 
 ## 7. Player-Visible Interface Test
 
@@ -145,7 +149,7 @@ Not allowed as a left-side game frame:
 - designer-facing rule cards
 - text blocks that explain the feature instead of showing what players see
 
-If mechanism content matters, anchor it to a visible UI result: updated value, disabled button reason, refreshed list, toast, modal, red dot, mail, return state, or right-side note.
+If mechanism content matters, anchor it to a visible UI result: updated value, disabled button reason, refreshed list, local tip, toast, modal, red dot, source-defined external surface, return state, or right-side note. Do not create standalone mechanism-feedback screens or merge unrelated prompts with external claim/mail content.
 
 ## 8. State And Feedback Splitting
 
@@ -213,7 +217,7 @@ Before responding:
 - Confirm no old placeholder body content remains.
 - Confirm `1.0` explains product intent, not a feature summary.
 - Confirm `3.0` is goal-level player flow, not backend mechanism flow.
-- Confirm every important `3.0` node has a matching `4.0` interface/state explanation.
+- Confirm every player-visible `3.0` node has a matching `4.0` interface/state explanation, and every non-screen node is intentionally classified as rule, mechanism note, external dependency, or `AI待确认`.
 - Confirm every `1334x750` frame is player-visible UI, not a rule card or support diagram.
 - Confirm material selection, empty states, confirmation, success/failure feedback, result/reward, mail/claim, and refreshed return states are split when relevant.
 - Confirm daily refresh, weekly forced recovery, permission rules, and system settlement are anchored to visible UI consequences rather than drawn as standalone screens.

@@ -53,6 +53,7 @@ Find the main interface: the surface where the core player operation happens.
 Then expand outward:
 
 - Entry: where the player comes from and why they enter.
+- Entry surface: if the source describes an in-world interaction point, building/lobby/HUD entry, external jump, or mail/claim entry that belongs to the current scope, model that player-visible surface before the main panel.
 - Main interface regions: navigation, mode area, operation area, list/card/slot area, preview/status area, action area.
 - True modes: change content model, operation goal, or success criteria.
 - Helper operations: fill, repeat, recommend, filter, sort, preview, compare, batch, manage.
@@ -105,22 +106,30 @@ Before adding anything to the board, decide where it belongs.
 
 Mechanism-to-UI conversion rule:
 
-- Daily refresh -> updated price/list, notice, countdown, toast, stale-state copy, or right note.
-- Weekly forced recovery -> mail, claim state, red dot, returned currency result, or right note.
+- Refresh, reset, settlement, forced order, price/quota/limit update -> local value/list update, small tip, toast, disabled reason, countdown/stale-state copy, or right note.
+- Source-defined external result -> draw the actual external surface only when the PRD defines that surface; otherwise keep it as a note.
 - Permission gate -> locked entry, disabled button, blocked toast, pre-entry warning, or AI pending about wasted visit.
 - Server validation -> waiting state, retry/failure toast, button lockout, rollback/refresh state, or right note.
 - Configuration/order -> visible category order, filter/sort result, empty fallback, or right note.
 
-If no player-visible consequence can be identified, keep the mechanism out of the main board or ask whether it should be in scope.
+Do not create a standalone mechanism screen or combine unrelated prompts with external claim/mail content. If no player-visible consequence can be identified, keep the mechanism out of the main board or ask whether it should be in scope.
 
 ## 6. Flow Modeling
 
 Create two levels of flow.
 
+Before drawing, create two concise internal inventories:
+
+- `Flow inventory`: main flow and branch flows grouped by player goal, not by PRD heading or template placeholders.
+- `Screen inventory`: each player-visible flow node maps to a `4.0` interface/state; non-screen nodes are explicitly classified as rule, mechanism note, external dependency, or `AI待确认`.
+
+The template's default flow-node count is not a content limit. Add separate flow blocks when the source contains multiple player goals with distinct entries, operation loops, or destinations.
+
 Goal-level feature flow:
 
 - Keep the main flow to the smallest readable journey, usually 5-8 steps.
-- Good shape: entry surface -> main interface -> browse/configure -> primary action -> confirm/transition -> result/refresh -> return/cross-system impact.
+- Good shape: entry surface -> main interface -> browse/configure -> primary action -> validation/confirmation/resource consumption -> result/reward/refresh -> return/cross-system impact.
+- Arrange nodes by actual player causality, not template placeholder order. Do not show benefit delivery before validation, confirmation, or cost/resource consumption.
 - Add branch flows only when they have their own player goal, recognizable entry, operation loop, and return/destination.
 - Good branch examples: receive/claim from another role, view record/history, manage saved items, external jump, accept invitation, mail claim, visitor/owner path.
 - Do not put boundary handling into `other flows` just because it is important. Resource shortage, failed validation, missing data, no permission, reward/config exception, and unavailable state usually belong beside the relevant module unless they create a player-operated recovery flow.
@@ -130,6 +139,7 @@ Local operation flow:
 - Keep filters, card clicks, local state changes, detail panels, disabled reasons, and state sets beside their owning module.
 - Do not promote every local tap into the main flow section.
 - Do not let a flow diagram replace the interface frames for player-visible states.
+- Every player-visible node in `3.0` must be traceable to a `4.0` interface/state or intentionally classified as non-screen support content.
 
 Step split boundary:
 

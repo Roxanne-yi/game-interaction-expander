@@ -131,7 +131,15 @@ Consistency reduces learning cost and prevents designers from doubting the wiref
 - Do not switch between card/list/modal styles without a feature reason.
 - If the project/template has a component or label system, reuse it before drawing new shapes.
 
-## 10.1 Low-Fidelity Visual Language
+## 10.1 Stable Frame For Same Interface States
+
+For tabs, modes, and local states of the same interface, keep the stable frame unchanged: title bar, close/back behavior, navigation location, main column structure, and fixed operation area.
+
+Only the tab-controlled content area, state area, overlay, toast, disabled reason, or feedback layer should change. If the frame changes substantially, classify it as a different surface instead of drawing unrelated versions of the same interface.
+
+Background mechanisms such as refresh, reset, settlement, forced order, price/quota/limit update, or backend validation should not become large standalone screens. Localize them to the owning interface as small tips, refreshed values, disabled reasons, toast, red-dot state, source-defined external surface, or right-side note.
+
+## 10.2 Low-Fidelity Visual Language
 
 Wireframes are structural tools, not visual proposals.
 
@@ -182,6 +190,8 @@ Before finalizing:
 - Can a designer immediately tell what screen this is and what the player is trying to do?
 - Is the main operation visible and placed near the relevant content?
 - Are rules expressed as UI states rather than designer-facing rule cards?
+- Do tabs/modes/states of the same interface keep the same frame and change only the owned content/state area?
+- Are background mechanisms localized to the owning interface or notes instead of becoming standalone screens?
 - Are player-visible feedback and return states drawn?
 - Are related controls grouped and aligned?
 - Are same-type controls consistent across modules?

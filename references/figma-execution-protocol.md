@@ -21,8 +21,10 @@ Before Figma writing, prepare a concise internal plan from the PRD interpretatio
 
 - Board name and generation date.
 - `1.0` product positioning: design background/problem, target players, expected experience/result.
-- `3.0` player flows: main flow and secondary flows, excluding pure backend mechanisms.
-- `4.0` feature details: major functions, minor functions, interface list, states, feedback, popups, failure/recovery, and external surfaces.
+- `Flow inventory`: main flow and secondary flows grouped by player goal, excluding pure backend mechanisms.
+- `Screen inventory`: every player-visible flow node mapped to a `4.0` interface/state, or classified as rule, mechanism note, external dependency, or `AI待确认`.
+- `3.0` player flows: draw from the flow inventory, not from template placeholder count or order.
+- `4.0` feature details: draw from the screen inventory; include major functions, minor functions, interface list, states, feedback, popups, failure/recovery, and external surfaces.
 - `AI待确认` notes: missing rules, contradictions, inferred decisions, and design risks.
 - Red-dot or notification content only when in scope.
 
@@ -62,9 +64,11 @@ Required behavior:
 - Keep `1.0` in the asymmetric template layout and replace only the answer/body text.
 - Use version rows according to iteration history: first generation has one filled row; later iterations append rows.
 - Keep `2.0` empty by default unless adaptation is explicitly in scope.
-- Draw `3.0` as one or more complete player-flow blocks. Each flow block needs a cloned flow-name style, screen/state nodes, connectors, and condition labels.
-- Do not draw backend refresh, weekly reset, or system settlement as player flows unless the player actively operates them. Put those mechanisms into `4.0` states, reminders, toast, mail, red-dot, or notes.
-- Draw `4.0` by hierarchy: major function -> major title; minor function -> subtitle; interface/state -> interface title + left wireframe + right notes.
+- Draw `3.0` as one or more complete player-flow blocks from the flow inventory. Each flow block needs a cloned flow-name style, screen/state nodes, connectors, and condition labels.
+- Arrange `3.0` nodes by actual player sequence. Do not preserve template node order when it reverses causality; validation/confirmation/resource consumption must precede result, reward, or benefit delivery.
+- The template's default flow-node count is not a content limit. Add or remove nodes and flow blocks according to player goals.
+- Do not draw backend refresh, reset, settlement, quota update, or forced-order mechanisms as player flows unless the player actively operates them. Put those mechanisms into `4.0` local states, reminders, toast, source-defined external surfaces, red-dot, or notes.
+- Draw `4.0` by hierarchy from the screen inventory: major function -> major title; minor function -> subtitle; interface/state -> interface title + left wireframe + right notes.
 - For every `4.0` module/subtitle/interface/note label, clone or reuse the template prototype style first, then edit text.
 - Draw low-fidelity wireframes as plausible player-visible UI inside the cloned screen-frame area. Include hierarchy, controls, state changes, feedback, modal/toast/result states, and return paths when relevant.
 - Do not draw wireframes as pure text cards, feature-name lists, backend diagrams, or mechanism summaries.
@@ -94,8 +98,9 @@ Content checks:
 
 - `1.0` answers why the feature exists, who it affects, and what experience/result should improve.
 - `3.0` is a real player experience flow, not a copy of the template path and not a backend mechanism map.
-- Every important `3.0` node has a matching `4.0` interface/state explanation.
-- `4.0` includes entry, main operation, selection/confirmation, success/failure feedback, edge states, and external surfaces when source-backed.
+- Flow inventory and screen inventory are consistent: every player-visible `3.0` node maps to a `4.0` interface/state.
+- `3.0` causal order is correct: validation/confirmation/resource consumption comes before result/reward/benefit delivery.
+- `4.0` includes entry, main operation, selection/confirmation, success/failure feedback, edge states, and source-backed external surfaces.
 - Left wireframes look like usable low-fidelity game UI.
 - Right notes explain purpose, module composition, state, player operation, post-action change, feedback, exception handling, and `AI待确认`.
 - `AI待确认` is useful for design or planning decisions, not only edge-case QA.
