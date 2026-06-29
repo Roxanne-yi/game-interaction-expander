@@ -2,28 +2,28 @@
 
 Use this reference for the visible Figma board. It defines what designers should see, not how Codex thinks internally.
 
+The board is not a PRD summary. It is a translation from planning facts into product intent, player flows, player-visible states, designer-facing explanations, and design risks.
+
 For left-side wireframe usability, apply [wireframe-design-principles.md](wireframe-design-principles.md). Do not expose that reference as visible methodology.
 
-For executable Figma guardrails, apply [figma-execution-protocol.md](figma-execution-protocol.md). The manifest renderer and manifest validator are required for Figma board generation.
+For Figma execution, apply [figma-execution-protocol.md](figma-execution-protocol.md). The default path is direct `use_figma` drawing; renderer and validator scripts are not part of the workflow.
 
 ## 1. Destination and Template
 
+Default template:
+
+`https://www.figma.com/design/RbcXtsnRIfCVUXRjUXW99x/%E8%AE%BE%E8%AE%A1%E7%AE%A1%E7%BA%BF%E7%A0%94%E7%A9%B6?node-id=1184-1331&t=noJVA0YdED8KTxqt-4`
+
+Rules:
+
 - Require a Figma destination before generating.
-- Use the user's provided template or target page as authoritative.
-- If no template is provided, use the KRAD manifest fallback in `assets/krad-template/template-manifest.json`.
-- Replaceable does not mean restylable. The active template is a strict style and layout contract.
-- Before drawing generated content, run the manifest renderer from `figma-execution-protocol.md`.
-- Before final delivery, run the manifest validator, repair failures, and rerun.
-
-When using a template:
-
-- Clone the active template first.
-- Edit only manifest-approved text slots and cloned body prototypes.
-- Do not create one full-board generated overlay on top of the template.
-- Preserve colors, typography, spacing rhythm, component styling, section order, placeholder dimensions, frame fills, and footer/header styling.
+- Use the user-provided template/page when present; otherwise use the default template above.
+- Replaceable does not mean restylable. The active template is a strict visual language contract.
+- Clone or visually follow the active template before drawing generated content.
+- Preserve colors, typography, spacing rhythm, title badges, note labels, section order, top floating/header, footer, background, placeholder dimensions, and component styling.
 - Do not shrink template text styles to fit dense content. Shorten wording, extend the module, or push later modules down.
 - If more space is needed, extend the board height and move the footer.
-- If a required slot cannot be found, stop and report the missing slot. Do not draw an imitation.
+- If exact cloning is blocked, report the blocker and preserve the template visually; do not switch to a renderer or draw an unrelated freeform board.
 
 ## 2. Board Structure
 
@@ -35,159 +35,163 @@ Default sections:
 4. `4.0 Feature details`
 5. Optional `5.0` extension
 
-Do not create visible sections named after internal artifacts such as `manifest`, `operation hotspot audit`, `acceptance gate`, or `analysis checklist`.
-
 `1.0`, `2.0`, `3.0`, and `4.0` are global sections and must appear exactly once. When a PRD has multiple major functions, expand only the `4.0` feature-detail module blocks under the single `4.0` section; do not repeat the full board scaffold per major function.
+
+Do not create visible sections named after internal artifacts such as `analysis checklist`, `operation hotspot audit`, `source ledger`, `validator`, or `manifest`.
 
 ## 3. Design Overview
 
 `1.0` must keep the template's asymmetric layout.
 
-Rules:
+Product positioning must answer:
 
-- Do not turn the overview into equal-width cards.
-- Keep the product-positioning structure.
-- Do not rewrite the fixed question labels:
-  - `设计背景和要解决的问题`
-  - `针对哪些人群？`
-  - `期望达到怎样效果？`
-- Replace only the body text below those questions.
-- Keep the right-side version table style.
-- First generation: table header plus one filled row.
-- Later iteration: append a new row below existing rows.
+- Why this feature exists and what player problem or loop it solves.
+- Which player motivation group is mainly affected.
+- What experience outcome should improve: clarity, motivation, convenience, recognition, rhythm, recovery, or loop completion.
 
-Product positioning must read like a designer's product understanding:
+Use this translation path:
 
 `source mechanic -> player motivation/problem -> desired experience outcome`
 
-Keep it concise. Do not include PRD caveats, AI process notes, missing-state lists, config names, drawing instructions, or module responsibility summaries.
+Keep the three answers concise and product-facing. Do not write PRD caveats, missing-state lists, config names, drawing instructions, module responsibilities, or process notes here.
+
+Version rows describe the board iteration. First generation has one filled row; later iterations append rows rather than overwrite history.
 
 ## 4. Adaptation Plan
 
 `2.0` stays as an empty template by default.
 
-Do not fill adaptation frames, delete placeholders, or resize the `1334x750`, `1800x750`, or `1334x1001` frames unless the user explicitly asks for adaptation output.
+Do not fill adaptation frames, delete placeholders, or resize the template adaptation frames unless the user explicitly asks for adaptation output.
 
 ## 5. Feature Flow
 
-Each `3.0` flow block must contain:
+`3.0` explains player experience flow, not every local tap or backend rule.
+
+A good main flow shape is:
+
+`entry surface -> main interface -> browse/configure -> primary action -> confirmation/transition -> result/refresh -> return or cross-system impact`
+
+Each flow block should contain:
 
 - Flow name.
-- Screen/interface nodes.
+- Player-visible screen/state nodes.
 - Connectors.
 - Condition labels.
 
-Each screen node contains only:
+Add secondary flows only when they have a distinct player goal, recognizable entry, operation loop, and return/destination. Examples: claim from mail, receive from another role, manage saved items, view record/history, external jump, visitor/owner branch.
 
-- Interface name.
-- Screen placeholder.
-
-Main flow comes first. If the analysis finds secondary flows with their own player goal, entry, operation loop, and return/destination, create another complete flow name plus flow diagram. Do not force secondary flows into the main diagram if that makes it unreadable.
-
-Flow names must be unique and specific. Do not reuse a generic name such as `主流程：制造手办并高价出售` for every flow or every module.
-
-Allowed flow variations:
-
-- Branches.
-- Judgment nodes.
-- Return paths.
-- Conditional paths.
-
-Flow diagrams explain player flow, not high-fidelity UI. Interface placeholders are left for designers to fill.
+Do not draw backend refresh, weekly reset, system settlement, permission matrix, pricing order, or forced recycling order as player flows unless the player actively operates them. Convert them into `4.0` states, reminders, toast, mail, red-dot behavior, or right-side notes.
 
 ## 6. Feature Detail Modules
 
-`4.0` uses a fixed hierarchy:
+`4.0` uses this fixed hierarchy:
 
-- Major function = one complete module block = one `主标题`.
-- Minor function = one `副标题`.
-- Interface explanation = one `界面标题` plus one left screen frame and one right-side note group.
+- Major function = one complete module block.
+- Minor function = one subtitle group.
+- Interface/state explanation = one interface title plus left wireframe and right-side note group.
 
-All three title levels must preserve template style.
+Module organization:
 
-Left side:
+- Lead with the main interface and its important tabs/modes/panel/helper states.
+- Then show primary action checks, confirmations, loading/performance stages, results, returns, secondary operation lifecycles, and cross-surface states.
+- Group internal logic under its owning interface. Do not turn every PRD heading into a separate wireframe.
+- If a helper fills, filters, sorts, recommends, repeats, or previews the main surface, show it as part of that surface, not as an equal top-level page.
+- If a true mode changes content model or operation goal, show it as a visible tab/mode/panel state.
 
-- Keep the template screen frame shell.
-- Draw AI low-fidelity wireframes inside the frame.
-- Wireframes express layout, state, operation entry, feedback position, and player-visible consequences.
-- Do not draw rule cards, mechanism summaries, or backend diagrams inside player screens.
+## 7. Player-Visible Interface Test
 
-Right side:
+A left-side `1334x750` frame must look like something a player could plausibly see, tap, close, read, wait on, claim, or return to.
 
-- Use template label/tag style above each explanation group.
-- Use numbered explanation lines below the label.
-- Keep notes aligned with the related left frame.
-- Source facts, interaction rules, state rules, feedback, dependencies, design risks, and AI follow-ups must stay visually grouped with the owning interface.
+Allowed left-side content:
 
-Label rules:
+- main feature panels, tabs, lists, cards, slots, filters, sorting, detail/preview areas
+- buttons, toggles, dropdowns, steppers, counters, selected/disabled/locked states
+- modal confirmations, blocking errors, loading masks, result screens, toast positions
+- mail/reward claim, inventory impact, external surface state, red-dot/notification state
+- short player-facing copy such as disabled reason, price updated notice, insufficient resource, success/failure feedback
 
-- Reuse existing labels/tags where possible.
-- If a label such as `AI待确认` does not exist, derive it from the template label/tag style.
-- `AI待确认` uses a red warning color family.
-- Do not hand-draw a new plain rectangle label.
+Not allowed as a left-side game frame:
 
-Feature-detail-related content belongs in `4.0`, including entry rules, state rules, interaction feedback, exceptional cases, server validation, red-dot logic, and design risks tied to a function.
+- refresh schedules
+- recycling/settlement order explanations
+- permission matrices
+- backend ownership boundary summaries
+- pricing formulas or config tables
+- QA checklists
+- designer-facing rule cards
+- text blocks that explain the feature instead of showing what players see
 
-If a reserved template block is not used, hide it or remove it. Do not leave visible placeholders such as `红点流程名称`, `界面名称`, or `备注内容（非必须）` inside generated `4.0` content.
+If mechanism content matters, anchor it to a visible UI result: updated value, disabled button reason, refreshed list, toast, modal, red dot, mail, return state, or right-side note.
 
-## 7. Optional 5.0
+## 8. State and Feedback Splitting
+
+One wireframe represents one player-visible state.
+
+Split these when the player sees a different stage over time:
+
+- functional interface where the player acts
+- selection or helper popover
+- confirmation popup
+- loading/sending/claiming/animation/performance stage
+- success or failure result
+- refreshed return surface showing what changed
+- external surface such as mail, inventory, HUD, lobby, settlement, or visitor surface
+
+Do not merge a primary operation with its result surface when the result changes what the player sees or receives. For make/craft/cook/claim/send/sell/save/replace/invite actions, account for success feedback, reward/result display, data refresh, and return state.
+
+## 9. Right-Side Notes and AI Pending
+
+Right-side notes are designer-facing PRD translation. They should explain the related left-side interface, not replace it.
+
+Valid note content:
+
+- source-backed interface/control/state/rule
+- player operation and enable/disable conditions
+- state changes after the operation
+- feedback/performance: toast, modal, animation, audio, VFX, result, refresh, lockout, skip/interrupt
+- implementation dependency: server validation, sync timing, persistence, rollback, capacity, failure recovery
+- designer decision prompt: feedback strength, recognition priority, decision clarity, visual/audio/VFX hierarchy
+- `AI待确认`: missing, conflicting, or inferred decision that affects design
+
+Use meaningful labels such as `策划注意`, `程序注意`, `UI注意`, `UIFX注意`, `VFX注意`, `音效注意`, `美术注意`, `动画注意`, `更新`, and `AI待确认`.
+
+`AI待确认` should expose design risks first, not only edge-case QA:
+
+- Why does the player want to do this?
+- Is the decision basis visible enough?
+- Does the route create a dead end or wasted visit?
+- Is the rule taught before failure?
+- Can the player recover from failure?
+- Is the cognitive load reasonable?
+- Does the feedback close the motivation loop?
+
+Attach AI pending items to the affected module/control/state. Use red warning emphasis and keep them visually independent from ordinary notes.
+
+## 10. Optional 5.0
 
 Create `5.0` only when content is truly outside `1.0-4.0`.
 
 Valid examples:
 
-- Global glossary.
-- Cross-system dependency appendix.
-- Independent appendix not tied to a feature module.
+- global glossary
+- independent cross-system dependency appendix
+- appendix not tied to a feature module
 
 If the content is a function risk, boundary, state, or rule, keep it in `4.0`.
 
-## 8. Wireframe Rules
-
-- Default platform is mobile game.
-- Use `1334x750` for standard 16:9 player-visible game screens.
-- Draw simple structural wireframes, not high-fidelity UI.
-- Keep player-facing wireframes grayscale-first; use accent color only for selected states, key markers, progress, and primary CTA.
-- Derive layout from game interaction rules, not HTML prototype layout.
-- Every visible page, tab, navigation item, button, control, feature name, and system entry must be source-supported or explicitly labeled as AI follow-up/suggestion.
-- Do not place large rule descriptions inside player screens. Show the visible state on the left and explain the rule on the right.
-- Separate states over time into separate frames: functional interface, confirmation, loading/performance, result, refreshed return state, and exceptions.
-
-## 9. Right-Side Notes
-
-Right-side notes are designer-facing PRD translation.
-
-Valid note types:
-
-- Source fact.
-- Interaction/state rule.
-- Logic expansion.
-- Feature-design risk.
-- Feedback/performance.
-- Implementation dependency.
-- Designer decision prompt.
-- AI follow-up question.
-
-Writing style:
-
-- Prefer short numbered lines.
-- Start each note line with a number.
-- Translate config facts into player-visible behavior or design impact.
-- Do not expose raw IDs/table names/fields as the primary sentence.
-- Do not write meta instructions such as "AI should", "wireframes must", "left side/right side", or "split into frames".
-
-AI follow-ups:
-
-- Use `AI待确认`.
-- Use red warning styling from the manifest.
-- Ask about missing logic and feature-design gaps first, not only edge-case QA.
-- Do not ask about states the PRD already excludes.
-
-## 10. Final QA
+## 11. Final QA
 
 Before responding:
 
-- Run the manifest validator.
 - Screenshot the board and inspect the actual visual result.
-- Run the semantic gates in `output-quality-model.md`.
-- If the board fails structural validation or semantic review, revise it before delivery.
+- Confirm the default/user-provided template visual language is preserved.
+- Confirm no old placeholder body content remains.
+- Confirm `1.0` explains product intent, not a feature summary.
+- Confirm `3.0` is goal-level player flow, not backend mechanism flow.
+- Confirm every important `3.0` node has a matching `4.0` interface/state explanation.
+- Confirm every `1334x750` frame is player-visible UI, not a rule card or support diagram.
+- Confirm material selection, empty states, confirmation, success/failure feedback, result/reward, mail/claim, and refreshed return states are split when relevant.
+- Confirm daily refresh, weekly forced recovery, permission rules, and system settlement are anchored to visible UI consequences rather than drawn as standalone screens.
+- Confirm right-side notes explain purpose, module composition, states, operation, post-action changes, feedback, exceptions, and AI pending.
+- Confirm AI pending items expose design risks and decision gaps.
+- Confirm modules and notes do not overlap; footer sits after final content with safe spacing.
