@@ -93,6 +93,20 @@ Use the result to decide whether to:
 
 Do not output raw hotspot tables by default. Tables are only for dense state comparison when they help scanning.
 
+
+### Surface Transition / Branch Inventory
+
+Before converting goals into `3.0`, audit how planned `4.0` surfaces connect. This inventory is about interface/state transitions, not every local control.
+
+For each surface, classify visible interactions as:
+
+- `primary CTA`: the main action that advances to the next surface, result, confirmation, or loop closure.
+- `branch trigger`: a tab, secondary CTA, message, entry, external jump, close/back action, or blocked/failure trigger that changes destination, feedback, recovery, or loop closure.
+- `local control`: filters, sorting, dropdowns, item selection, quantity adjustment, local selected state, and other operations that stay within the same surface.
+- `passive/system consequence`: background refresh, compensation, notification, external mail/result, red dot, or toast that the player may see but does not actively operate as a core goal.
+
+Only `primary CTA` and `branch trigger` candidates enter `3.0`. `local control` stays in the owning `4.0` wireframe and notes. `passive/system consequence` becomes local state, toast, external-surface example, right-side note, or `AI待确认` risk unless it creates a real player-operated loop.
+
 ## 5. Representation Ownership
 
 Before adding anything to the board, decide where it belongs.
@@ -114,38 +128,55 @@ Mechanism-to-UI conversion rule:
 
 Do not create a standalone mechanism screen or combine unrelated prompts with external claim/mail content. If no player-visible consequence can be identified, keep the mechanism out of the main board or ask whether it should be in scope.
 
-## 6. Flow Modeling
+## 6. Goal Flow Graph Modeling
 
-Create two levels of flow.
+Create `3.0` as player goal graphs, not as PRD-heading lists or template-shaped step strips.
 
-Before drawing, create two concise internal inventories:
+Before drawing, create three concise internal inventories in this order:
 
-- `Flow inventory`: main flow and branch flows grouped by player goal, not by PRD heading or template placeholders.
-- `Screen inventory`: each player-visible flow node maps to a `4.0` interface/state; non-screen nodes are explicitly classified as rule, mechanism note, external dependency, or `AI待确认`.
+- `4.0 Surface / Note Inventory`: each player-visible surface/state/feedback moment maps to a `4.0` interface/state; non-screen content is classified as decision/branch/local state/external dependency/right-side note or `AI待确认`.
+- `Surface Transition / Branch Inventory`: each surface records primary CTAs, branch triggers, local controls, passive/system consequences, destination/result surfaces, and failure/recovery returns.
+- `Goal Flow Graph inventory`: each top-level graph passes the `Top-level Goal Promotion Gate`, then records player goal, entry, main success path, surface transitions, end/return, optional decision/failure/merge/loop/sub-flow units, and matching `4.0` surfaces.
 
-The template's default flow-node count is not a content limit. Add separate flow blocks when the source contains multiple player goals with distinct entries, operation loops, or destinations.
+Template visual language is mandatory, but template topology is not. Do not inherit node count, single-line layout, fixed order, or branch shape from the template example.
 
-Goal-level feature flow:
+Designer Flow Grammar:
 
-- Keep the main flow to the smallest readable journey, usually 5-8 steps.
-- Good shape: entry surface -> main interface -> browse/configure -> primary action -> validation/confirmation/resource consumption -> result/reward/refresh -> return/cross-system impact.
-- Arrange nodes by actual player causality, not template placeholder order. Do not show benefit delivery before validation, confirmation, or cost/resource consumption.
-- Add branch flows only when they have their own player goal, recognizable entry, operation loop, and return/destination.
-- Good branch examples: receive/claim from another role, view record/history, manage saved items, external jump, accept invitation, mail claim, visitor/owner path.
-- Do not put boundary handling into `other flows` just because it is important. Resource shortage, failed validation, missing data, no permission, reward/config exception, and unavailable state usually belong beside the relevant module unless they create a player-operated recovery flow.
+- Available units: diamond decision, branch line, merge, loop, dashed optional route, mode lane, external-surface node, nested sub-flow node.
+- Use these units only when they make the player goal graph clearer.
+- Do not add a decision/failure branch just to satisfy a format.
+- Do not omit a real decision/failure/return to fit the template.
+- Complex sub-processes may be folded into a nested sub-flow node, but define its input, output, and return path.
 
-Local operation flow:
+Top-level Goal Promotion Gate:
 
-- Keep filters, card clicks, local state changes, detail panels, disabled reasons, and state sets beside their owning module.
-- Do not promote every local tap into the main flow section.
-- Do not let a flow diagram replace the interface frames for player-visible states.
-- Every player-visible node in `3.0` must be traceable to a `4.0` interface/state or intentionally classified as non-screen support content.
+Promote a candidate into a top-level `3.0` graph only when all are true: the player actively enters, operates, and decides; it mainly contributes to the current feature goal; it has a clear enter -> operate -> decide/confirm -> result -> return/continue loop; and omitting it would make the feature hard for designers to understand.
+
+Do not promote existing-system entries, prerequisite setup, passive compensation, backend schedules, limit explanations, or one-off reminders. Demote them to pre-entry context, local state/toast, external-surface example, right-side note, or `AI待确认` risk unless the source makes them an active player-operated loop.
+
+Surface transition ownership rule:
+
+- If a `primary CTA` or `branch trigger` opens a new surface, modal, result, external surface, return target, failure/recovery path, or loop closure, represent it in `3.0`.
+- If an interaction only changes local selection, quantity, filtering, sorting, disabled reason, value, toast, or explanatory note, keep it inside the owning `4.0` surface.
+- Do not merge distinct branch triggers on the same surface when they lead to different destinations or feedback loops.
+
+Mechanism ownership rule:
+
+- Refresh, reset, settlement, permission, quota, validation, and backend-order rules are not top-level player goals.
+- Attach them to the owning goal as a decision, branch, disabled/local state, toast, external surface, right-side note, or `AI待确认`.
 
 Step split boundary:
 
 - Merge tiny implementation steps when they share the same player goal, same surface, and same feedback stage.
 - Split stages that change the player's visible task, decision basis, confirmation/reveal moment, success/failure feedback, lifecycle state, or destination.
 - Do not merge a primary operation with its success/result surface when the result changes what the player sees or receives.
+
+Surface split boundary:
+
+- One left wireframe equals one player moment, not a state collection.
+- Split modal confirmation, loading/waiting, success/failure result, toast/local tip, mail/external surface, and returned/refreshed state when they are different moments or layers.
+- Keep mutually exclusive feedback states out of the same frame.
+- If a surface is only a rule or backend mechanism, keep it as a right-side note unless the player sees a concrete UI consequence.
 
 ## 7. State and Lifecycle Scan
 
@@ -192,26 +223,33 @@ Secondary lifecycle:
 - Layer order: base list/card < pinned navigation/HUD < dropdown/filter/popover < modal/loading mask < toast/top notice.
 - A `1334x750` game frame should pass the player-screenshot test: it looks like something a player could plausibly see, tap, close, read, wait on, or return to.
 
-## 9. AI Pending Triage
+## 9. AI Pending Coverage Rule
 
-`AI待确认` exists to expose design risk, not to list every edge case.
+`AI待确认` exists to expose design risk, not to list every edge case or satisfy a minimum count.
 
-Prioritize:
+Run an `AI Risk Mining Pass` before selecting final visible questions. Mine candidates from three layers:
 
-1. Product/logic completion: missing page, state, condition, transition, return path, lifecycle, or state update needed to make the feature understandable.
-2. Player motivation and value: why the player wants to do this, whether the feature value is visible, whether the loop closes.
-3. Decision basis: whether comparison, recommendation, sorting, pricing validity, reward preview, or reason copy is enough for a player to decide.
-4. Dead-end and recovery risk: wasted visits, blocked actions, no return path, failure without recovery, hidden preconditions.
-5. Cognitive load: too many rules, unclear hierarchy, late rule disclosure, conflicting surfaces.
+1. Product intent: unclear motivation, value expression, loop closure, first-time teaching, or why the player should care.
+2. Action/flow branches: unclear entry, decision basis, failure/recovery, return target, wasted action, irreversible cost, or social/economic trust issue.
+3. Interface expression: missing preview, hidden precondition, weak comparison, unclear copy hierarchy, feedback timing, reward visibility, or cross-surface handoff.
+
+Select the strongest questions, attach them to the affected `4.0` surface/control/state, and remove duplicates. Do not shrink risk mining to one board-level item.
+
+
+For every top-level player goal and every high-risk decision/failure/recovery/reward/return point, check:
+
+1. Player motivation and value: why the player wants to do this, whether the feature value is visible, whether the loop closes.
+2. Decision basis: whether comparison, recommendation, sorting, pricing validity, reward preview, or reason copy is enough for a player to decide.
+3. Dead-end and recovery risk: wasted visits, blocked actions, no return path, failure without recovery, hidden preconditions.
+4. Cognitive load: too many rules, unclear hierarchy, late rule disclosure, conflicting surfaces.
+5. Feedback/loop closure: whether success, failure, waiting, consumed, refreshed, claimed, returned, or recovered state is clear.
 6. Boundary QA: network failure, repeated tap, server rollback, capacity, stale data, cross-device sync.
 
 Good question shape:
 
 `When [module/control/state] meets [condition], should [decision A/B/C]? This affects [layout/state/feedback/return/recovery].`
 
-Avoid weak questions such as `state needs confirmation` or `display strength needs confirmation`.
-
-Do not ask about a state the PRD already excludes. Ask how confirmed restrictions are taught, shown, recovered from, or routed around.
+If no `AI待确认` is added for a goal or risk point, the source must already resolve those concerns clearly. Do not ask about a state the PRD already excludes; ask how confirmed restrictions are taught, shown, recovered from, or routed around.
 
 ## 10. Common Game Patterns
 

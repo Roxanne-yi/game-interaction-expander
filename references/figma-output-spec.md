@@ -81,24 +81,23 @@ Do not fill adaptation frames, delete placeholders, or resize the template adapt
 
 ## 5. Feature Flow
 
-`3.0` explains player experience flow, not every local tap or backend rule.
+`3.0` is a Core Play Path Graph, not a mechanism theme list or linear step strip. It explains the player-operated paths that carry the feature value: where the player enters, what they do, what they decide/confirm, what feedback/result they get, and where they return or continue.
 
-A good main flow shape is:
+Before drawing, create a `4.0 Surface / Note Inventory`, then a `Surface Transition / Branch Inventory`, then a `Goal Flow Graph inventory`. Promote a top-level graph only when it is a Core Play Path: the player actively enters a concrete surface/scene, performs a sequence of operations or choices, follows a visible CTA chain between surfaces (`entry -> operation -> decision/confirm -> feedback/result -> return/continue`), directly carries the feature core play value, and would leave designers unable to understand the feature if omitted. Otherwise demote the topic to pre-entry context, decision/branch under an owning core path, local state, external surface, right-side note, or `AI待确认`.
 
-`entry surface -> main interface -> browse/configure -> primary action -> confirmation/transition -> result/refresh -> return or cross-system impact`
-
-Each flow block should contain:
+Each top-level graph should contain only what the real goal needs:
+Split top-level graphs when player motivation, entry/source surface, operating perspective, decision basis, or value proposition changes. Do not merge two paths only because they share the same final reward, currency, inventory change, or backend action.
 
 - Flow name in cloned template flow-name style.
 - Player-visible screen/state nodes in cloned template node style.
-- Connectors.
-- Condition labels.
+- Main success path, surface transitions from primary CTAs or branch triggers, and return/destination.
+- Optional Designer Flow Grammar units when needed: diamond decisions, branches, merges, loops, dashed optional routes, mode lanes, external-surface nodes, and nested sub-flow nodes.
+- Condition labels and connectors in template-derived visual language.
 
-Before drawing, create an internal `Flow inventory` and `Screen inventory`. The template's default node count is not a content limit. Flow order must follow player causality; validation, confirmation, and cost/resource consumption come before result, reward, refresh, or benefit delivery.
+Do not force every graph to include a decision or failure branch. Do not omit real checks, branches, failures, or returns to fit the template. If one surface contains multiple meaningful triggers, map them as branches only when they lead to different surfaces, destinations, feedback, recovery, or loop closure; keep filters, sorting, dropdowns, item selection, quantity adjustment, and selected states inside `4.0`. Do not draw system pressure, existing-system entry, prerequisite setup, passive reminders, fallback compensation, backend refresh, reset, settlement, permission matrix, pricing order, forced-order rules, quota updates, or limit updates as top-level player flows unless the player actively operates them as a core loop.
 
-Add secondary flows only when they have a distinct player goal, recognizable entry, operation loop, and return/destination. Examples: claim from mail, receive from another role, manage saved items, view record/history, external jump, visitor/owner branch.
-
-Do not draw backend refresh, reset, settlement, permission matrix, pricing order, forced-order rules, quota updates, or limit updates as player flows unless the player actively operates them. Convert them into `4.0` local states, reminders, toast, source-defined external surfaces, red-dot behavior, or right-side notes.
+Use template visual language, not template topology. The template's example node count, single-line path, fixed order, and branch shape are not content rules.
+Write `3.0` node labels as player-facing actions or moments, not mechanism themes or page taxonomy. Prefer `查看好友价并比价` over `价格/比价`, `按好友价出售` over `出售页签`, and `确认获得回收币` over `结果反馈`.
 
 ## 6. Feature Detail Modules
 
@@ -124,11 +123,14 @@ Module organization:
 - Group internal logic under its owning interface. Do not turn every PRD heading into a separate wireframe.
 - If a helper fills, filters, sorts, recommends, repeats, or previews the main surface, show it as part of that surface, not as an equal top-level page.
 - If a true mode changes content model or operation goal, show it as a visible tab/mode/panel state.
+- `4.0 Surface Preservation Guard`: narrowing `3.0` to player goals must not delete player-visible surfaces from `4.0`. A picker, modal, toast, loading state, result, external surface, tab state, component state, or failure/recovery surface stays in `4.0` whenever the player actually sees or operates it, even when it is not a `3.0` node.
+- Overlay/modal rule: decide by transition role. Include an overlay/modal in `3.0` when its CTA creates the next surface, confirmation, submit, result, failure recovery, destination change, or loop closure. Keep it only in `4.0` when it is a local picker/help/filter layer that returns to the same operation stage.
 - Do not draw multiple unrelated versions of the same interface. For tabs, modes, or local states of the same interface, preserve the stable frame: title/close/back, navigation, main columns, and fixed controls. Change only the tab-controlled content, local state, overlay, or feedback layer unless the source implies a different surface.
+- Stable Surface Frame: when two screens are tabs/modes/states of the same interface, title bar, close/back, tab position, main information structure, and fixed action area must stay consistent. If those structures change substantially, classify the item as a different surface instead of drawing two unrelated versions of one interface.
 
 ## 7. Player-Visible Interface Test
 
-A left-side `1334x750` frame must look like something a player could plausibly see, tap, close, read, wait on, claim, or return to.
+A left-side `1334x750` frame must look like something a player could plausibly see, tap, close, read, wait on, claim, or return to. One frame = one player moment; do not use the frame as a state collection or rule summary.
 
 Allowed left-side content:
 
@@ -166,34 +168,30 @@ Split these when the player sees a different stage over time:
 - external surface such as mail, inventory, HUD, lobby, settlement, or visitor surface
 
 Do not merge a primary operation with its result surface when the result changes what the player sees or receives. For make/craft/cook/claim/send/sell/save/replace/invite actions, account for success feedback, reward/result display, data refresh, and return state.
+Passive mechanisms are not active results. If a reminder, periodic compensation, backend refresh, external mail, or fallback delivery is not the direct result of the player action being shown, do not place it inside that action success/result screen; localize it as a tip/toast, light external-surface example, right-side note, or `AI待确认` risk.
 
 ## 9. Right-Side Notes And AI Pending
 
-Right-side notes are designer-facing PRD translation. They should explain the related left-side interface, not replace it.
+Right-side notes are for interaction designers, not for the agent. They explain the related left-side interface and must not expose internal analysis taxonomy.
 
-Valid note content:
+Each note group should answer only:
 
-- source-backed interface/control/state/rule
-- player operation and enable/disable conditions
-- state changes after the operation
-- feedback/performance: toast, modal, animation, audio, VFX, result, refresh, lockout, skip/interrupt
-- implementation dependency: server validation, sync timing, persistence, rollback, capacity, failure recovery
-- designer decision prompt: feedback strength, recognition priority, decision clarity, visual/audio/VFX hierarchy
-- `AI待确认`: missing, conflicting, or inferred decision that affects design
+- What this interface/state shows.
+- What the player can do.
+- What feedback/result appears.
+- Where the player goes next or how they recover.
+- What design decision remains unresolved, if any.
 
-Use meaningful labels: `策划注意`, `程序注意`, `UI注意`, `UIFX注意`, `VFX注意`, `音效注意`, `美术注意`, `动画注意`, `更新`, and `AI待确认`.
+Do not expose terms such as representation ownership, mechanism ownership, surface classification, backend classification, validation ownership, template reasoning, inventory, gate, validator, or renderer in visible board text.
 
-`AI待确认` should expose design risks first, not only edge-case QA:
+Use meaningful labels: `策划注意`, `程序注意`, `UI注意`, `UIFX注意`, `VFX注意`, `音效注意`, `美术注意`, `动画注意`, `更新`, and `AI待确认`. Ordinary notes and `AI待确认` must be visually separated.
 
-- Why does the player want to do this?
-- Is the decision basis visible enough?
-- Does the route create a dead end or wasted visit?
-- Is the rule taught before failure?
-- Can the player recover from failure?
-- Is the cognitive load reasonable?
-- Does the feedback close the motivation loop?
+Right-side notes must reuse template `note label / note box` styling: discipline label above, numbered explanation lines below. Do not replace the template note component with a free grey text box.
 
-Attach AI pending items to the affected module/control/state. Use red warning emphasis and keep them visually independent from ordinary notes.
+`AI待确认` follows coverage, not count. Run an `AI Risk Mining Pass` across product intent, key surface transitions and flow branches, and interface expression. For each top-level player goal and high-risk transition/decision/recovery/reward/return point, check player motivation, decision basis, dead-end/recovery, cognitive load, value expression, and feedback/loop closure.
+
+Attach `AI待确认` items to the affected module/control/state. Use the template-derived red warning label/style with white high-contrast text and keep it visibly independent from ordinary notes.
+A surface can have zero, one, or several `AI待确认` items. Use an internal `aiRisks: []` list or equivalent grouping so each independent risk keeps its own number; do not merge motivation, decision-basis, recovery, value, and loop-closure risks into one long item to fit a single slot.
 
 ## 10. Optional 5.0
 
@@ -216,11 +214,13 @@ Before responding:
 - Confirm no hand-drawn replacement of template chrome exists.
 - Confirm no old placeholder body content remains.
 - Confirm `1.0` explains product intent, not a feature summary.
-- Confirm `3.0` is goal-level player flow, not backend mechanism flow.
-- Confirm every player-visible `3.0` node has a matching `4.0` interface/state explanation, and every non-screen node is intentionally classified as rule, mechanism note, external dependency, or `AI待确认`.
-- Confirm every `1334x750` frame is player-visible UI, not a rule card or support diagram.
+- Confirm `3.0` is a Goal Flow Graph, not a linear step strip or backend mechanism flow. Confirm the Surface Transition / Branch Inventory did not lose important primary CTAs, branch triggers, external jumps, failure/recovery paths, or loop closures.
+- Confirm every player-visible `3.0` node has a matching `4.0` surface, and every non-screen node is intentionally classified as decision/branch/local state/external dependency/right-side note or `AI待确认`.
+- Confirm every `1334x750` frame is one player-visible moment, not a rule card, support diagram, or mutually exclusive state collection.
 - Confirm material selection, empty states, confirmation, success/failure feedback, result/reward, mail/claim, and refreshed return states are split when relevant.
 - Confirm daily refresh, weekly forced recovery, permission rules, and system settlement are anchored to visible UI consequences rather than drawn as standalone screens.
-- Confirm right-side notes explain purpose, module composition, states, operation, post-action changes, feedback, exceptions, and `AI待确认`.
-- Confirm `AI待确认` items expose design risks and decision gaps.
+- Confirm right-side notes follow the Right-side Note Contract and reuse template note label / note box styling.
+- Confirm `AI待确认` coverage follows top-level player goals and high-risk decision points, not a board-level presence count.
+- Confirm `4.0` retained player-visible local surfaces even when they were not promoted to `3.0`, including overlays/modals/pickers/results/toasts/tab states when relevant.
+- Confirm same-interface tabs/modes/states share a stable frame, and passive/system consequences are not mixed into unrelated active result screens.
 - Confirm modules and notes do not overlap; footer sits after final content with safe spacing.

@@ -11,15 +11,23 @@
   },
   "namespace": "game_interaction_prd_expander",
   "global_section_rules": {
-    "single_instance_sections": ["1.0", "2.0", "3.0", "4.0"],
-    "optional_single_instance_sections": ["5.0"],
+    "single_instance_sections": [
+      "1.0",
+      "2.0",
+      "3.0",
+      "4.0"
+    ],
+    "optional_single_instance_sections": [
+      "5.0"
+    ],
     "module_expansion_scope": "Only expand feature-detail module prototypes under 4.0. Do not duplicate 1.0, 2.0, 3.0, or the 4.0 section header per module."
   },
   "style_tokens": {
     "warning_red": {
       "fill": "#D92D20",
       "text": "#FFFFFF",
-      "purpose": "AI待确认 label derived from the template label/tag style."
+      "purpose": "AI待确认 label derived from the template label/tag style.",
+      "contrast_rule": "Use a red-series label background/fill with white text for AI pending labels; keep the label template-derived and readable at a glance."
     },
     "screen_placeholder_fill": "#F2F2F2"
   },
@@ -113,58 +121,42 @@
       "flow_name_chip": "1184:1145",
       "flow_name_text": "1184:1146",
       "diagram_group": "1184:1147",
-      "screen_node_prototypes": [
-        {
-          "group": "1184:1148",
-          "title": "1184:1151",
-          "placeholder": "1184:1152"
-        },
-        {
-          "group": "1184:1160",
-          "title": "1184:1163",
-          "placeholder": "1184:1164"
-        },
-        {
-          "group": "1184:1165",
-          "title": "1184:1168",
-          "placeholder": "1184:1169"
-        },
-        {
-          "group": "1184:1170",
-          "title": "1184:1173",
-          "placeholder": "1184:1174"
-        },
-        {
-          "group": "1184:1175",
-          "title": "1184:1178",
-          "placeholder": "1184:1179"
-        },
-        {
-          "group": "1184:1180",
-          "title": "1184:1183",
-          "placeholder": "1184:1184"
-        },
-        {
-          "group": "1184:1185",
-          "title": "1184:1188",
-          "placeholder": "1184:1189"
-        }
-      ],
-      "connector_prototypes": [
-        "1184:1154",
-        "1184:1155",
-        "1184:1156",
-        "1184:1157",
-        "1184:1158",
-        "1184:1159"
-      ],
       "condition_label": "1184:1153",
       "rules": [
-        "Each flow block must have flow name, node diagram, connectors, and condition labels.",
-        "Each node contains only interface name and screen placeholder.",
-        "Main flow comes first. Secondary flows get their own flow name and diagram.",
-        "Branches and judgment nodes may be derived from player flow."
-      ]
+        "3.0 uses Goal Flow Graphs: each top-level graph is a player goal, phrased as player wants to..., not a linear step strip.",
+        "A screen node contains only interface/state name and a rectangular screen placeholder.",
+        "Flow node prototypes are style prototypes only; do not infer node count, order, single-line layout, or branch topology from them.",
+        "Designer Flow Grammar may add diamond decisions, branches, merges, loops, dashed optional routes, mode lanes, external-surface nodes, and nested sub-flow nodes when needed for readability.",
+        "Added flow grammar must serve Goal Flow Graph readability; do not use it as decoration or to turn backend mechanisms into top-level player flows.",
+        "Complex sub-processes may be folded into a nested sub-flow node only when input, output, and return path are clear.",
+        "Before drawing flow topology, create an Action / Affordance Inventory from the 4.0 surfaces; small entries, messages, jump links, and controls may create real branches.",
+        "Do not collapse distinct affordances on the same surface when they lead to different destinations, feedback, recovery, or loop closure."
+      ],
+      "screen_node_style_prototype": {
+        "group": "1184:1148",
+        "title": "1184:1151",
+        "placeholder": "1184:1152"
+      },
+      "connector_style_prototype": "1184:1154",
+      "style_only_policy": {
+        "records_only": [
+          "flow_name_chip",
+          "flow_name_text",
+          "screen_node_style_prototype",
+          "connector_style_prototype",
+          "condition_label"
+        ],
+        "does_not_record": [
+          "node_count",
+          "node_order",
+          "node_layout",
+          "single_row_layout",
+          "branch_count",
+          "example_topology",
+          "fixed_flow_shape"
+        ],
+        "drawing_rule": "Use template visual language, not template topology. Draw from the actual Goal Flow Graph; default reading direction is left-to-right and top-to-bottom, but branches, returns, lanes, external surfaces, and nested subflows may use new rows or groups for readability."
+      }
     },
     "feature_detail": {
       "section_number": "1184:1119",
@@ -248,6 +240,33 @@
     "Do not change top floating bar style.",
     "Do not fill 2.0 adaptation by default.",
     "Do not render 1.0 as equal-width cards.",
-    "Do not fall back to freehand drawing when a slot is missing."
-  ]
+    "Do not fall back to freehand drawing when a slot is missing.",
+    "Do not infer flow node count, order, or layout from flow style prototypes.",
+    "Do not compress multiple player goals into one template-like horizontal flow path.",
+    "Do not use a 1334x750 screen frame as a state collection or mechanism summary.",
+    "Do not inherit template example topology: 7-node strips, single-line paths, fixed branch shape, and placeholder order are not content rules.",
+    "Do not pass AI pending QA by board-level presence count; coverage must follow player goals and high-risk decisions.",
+    "Do not expose internal taxonomy or template reasoning in visible right-side notes.",
+    "Do not omit visible affordance branches such as entry links, messages, red dots, building hotspots, mail items, or helper controls just to keep a template-like flow.",
+    "Do not treat one generic AI pending item as sufficient when multiple player goals or high-risk affordances remain unresolved."
+  ],
+  "department_label_component": {
+    "prototype_candidates": [
+      "1184:1208",
+      "1184:1209",
+      "1184:1210",
+      "1184:1215"
+    ],
+    "resolution": "inspect componentProperties or variantProperties at runtime; do not edit inner text",
+    "roles": [
+      "策划",
+      "程序",
+      "UI",
+      "UIFX",
+      "动效",
+      "音效",
+      "美术",
+      "AI待确认"
+    ]
+  }
 }

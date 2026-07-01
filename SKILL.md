@@ -66,6 +66,18 @@ Generated interaction content is high-freedom inside allowed areas:
 - LLM owns PRD understanding, product intent, player flow design, low-fidelity interface composition, right-side explanations, and `AI待确认`.
 - Code or scripts must not compress semantic content just to fit a template area. Extend modules downward and move later content/footer instead.
 
+High-risk execution rules:
+
+- Before Figma drawing, prepare a concise text precheck: `4.0 Surface / Note Inventory`, `Surface Transition / Branch Inventory`, and `3.0 Goal Flow Graph inventory`.
+- `3.0` is a `Core Play Path Graph`, not a mechanism theme list, linear step strip, or control list. Each top-level graph must pass the stricter `Top-level Goal Promotion Gate`; use Designer Flow Grammar only when it improves core play readability.
+- Split `3.0` flows when player motivation, entry/source surface, operating perspective, decision basis, or social/economic value changes. Do not merge paths only because they share the same final reward or backend action.
+- `4.0` left wireframes show player-facing UI only. One frame = one player moment; local controls stay in `4.0` unless they trigger a new surface, branch, result, external surface, return target, or loop closure.
+- `4.0 Surface Preservation Guard`: simplifying `3.0` must not reduce `4.0` coverage. If a player sees, operates, waits on, confirms, closes, claims, recovers from, or returns through a moment, express it in `4.0` even when it stays out of `3.0`.
+- Overlay/modal surfaces are judged by transition role, not visual form. They enter `3.0` when they carry a new decision, confirmation, submit action, result trigger, failure recovery, destination change, or loop closure; otherwise keep them as `4.0` local surfaces.
+- `AI待确认` coverage is goal/risk based, not presence-count based. Before selecting final items, run an `AI Risk Mining Pass` across product intent, key surface transitions, blocking/failure/recovery, passive-system impact, and interface expression; check motivation, decision basis, recovery, cognitive load, value expression, and feedback/loop closure.
+- `AI待确认` is not one-per-surface. Low-risk surfaces can have none; high-risk surfaces can have 2-3 independent numbered risks. Never compress separate key risks into one item because of template slots, write helpers, or layout pressure.
+- `AI待确认` visual QA must inspect visible child fills, vector/arrow shapes, text, and number markers: use red-series backgrounds with white high-contrast text, not only a red parent frame.
+- Right-side notes are for interaction designers, not for the agent. Do not expose internal taxonomy or template reasoning in visible board text.
 ## Workflow
 
 1. Confirm scope and destination.
@@ -85,27 +97,34 @@ Generated interaction content is high-freedom inside allowed areas:
    - Find the main interface: the surface where the core player operation happens.
    - Expand outward from that surface: entry, navigation, tabs/modes, panels, helper operations, primary/secondary actions, validation, confirmation, loading/performance, result states, return paths, and affected external surfaces.
    - Analyze by player goals and operation hotspots, not by PRD headings.
-   - For each important hotspot, reason internally: `trigger -> player operation -> immediate feedback -> validation/data update -> result state -> failure state -> next destination`.
+   - Build a `Surface Transition / Branch Inventory`: list only the entries, CTAs, tabs/modes, messages, external jumps, close/back actions, or failure/return triggers that move the player between surfaces, create a branch, or close a loop.
+   - Keep filters, sorting, dropdowns, item selection, quantity changes, tab-local states, and list selection inside `4.0` unless they open a new surface, overlay/modal, result, external surface, return target, loop closure, or change the flow branch.
+   - For each important transition, reason internally: `source surface -> trigger/CTA -> immediate feedback -> validation/data update -> destination/result surface -> failure/recovery -> return/loop`.
    - Before asking questions, separate confirmed source facts/preconditions, interaction gaps, feature-design risks, and boundary QA.
    - Respect PRD-stated gates as facts; ask how the player learns, sees, recovers from, or routes around them.
    - Translate config and technical evidence into player-visible behavior, state, feedback, fallback, or recovery. Omit pure implementation cleanup from the main board.
 
 4. Decide representation ownership for every important fact.
    - Direct player action or visible state -> `4.0` left wireframe.
-   - Main or branch player journey -> `3.0` flow.
+   - Goal-level player journey -> `3.0` Goal Flow Graph.
    - Rule, dependency, condition, or implementation impact -> `4.0` right-side note.
    - Missing decision or design risk -> visible `AI待确认`.
    - Backend schedule, permission matrix, pricing formula, refresh order, or QA checklist -> never as a fake player screen; anchor it to a UI consequence or keep it in notes.
 
-5. Build semantic inventories before Figma output.
-   - Create an internal `Flow inventory`: main flow and branch flows grouped by player goal.
-   - Create an internal `Screen inventory`: every player-visible `3.0` node maps to a `4.0` interface/state, or is explicitly classified as a rule, mechanism note, external dependency, or `AI待确认`.
-   - The template's default flow-node count is not a content limit. Add or remove flow blocks and nodes according to player goals and causal sequence.
+5. Pass mandatory text precheck before Figma output.
+   - `4.0 Surface / Note Inventory`: list each surface name, surface type, player moment, related `3.0` goal/node, left wireframe intent, right-side note points, and `AI待确认` content.
+   - `Surface Transition / Branch Inventory`: for each surface, list primary CTAs, branch triggers, external jumps, close/back actions, blocking/failure triggers, destination/result surfaces, and which local controls stay only in `4.0`.
+   - `3.0 Goal Flow Graph inventory`: list each top-level graph after applying the `Top-level Goal Promotion Gate`, with player goal, entry, main success path, end/return, surface transitions, optional decision/failure/merge/loop/sub-flow units, and matching `4.0` surfaces.
+   - `Top-level Goal Promotion Gate`: promote a `3.0` top-level graph only when all are true: the player actively enters a concrete surface/scene; performs a sequence of operations or choices rather than only receiving a system consequence; follows a clear CTA chain between surfaces (`entry -> operation -> decision/confirm -> feedback/result -> return/continue`); contributes directly to the feature core play value rather than only reminder/fallback/reset/prerequisite value; and omitting it would make designers unable to understand how the feature is played.
+   - Demote system pressure, existing-system entries, prerequisite setup, passive reminders, fallback compensation, backend schedules/resets/settlement, limit explanations, and one-off notifications to pre-entry context, branch/failure/recovery under an owning core path, local state/toast, external-surface example, right-side note, or `AI待确认` risk unless they become an active player-operated loop.
+   - Designer Flow Grammar is optional and context-driven: use diamonds, branches, merges, loops, dashed optional routes, mode lanes, external-surface nodes, or nested sub-flow nodes only when they make the player goal graph clearer.
+   - Template visual language is mandatory, but template topology is not. Do not inherit template node count, single-line layout, fixed order, or branch shape.
+   - Name `3.0` flow nodes as player-facing actions or moments, not PRD topic names: prefer action labels like `查看好友价并比价`, `按好友价出售`, or `确认获得回收币` over abstract labels like `价格/比价`, `出售页签`, or `结果反馈`.
    - Do not let template placeholder order change causality: validation/confirmation/resource consumption comes before result, reward, or benefit delivery.
-
 6. Plan the board content directly.
    - Product meaning -> `1.0 Design overview`.
-   - Goal-level player journey -> `3.0 Feature flow`.
+   - Text precheck -> confirm `4.0 Surface / Note Inventory`, `Surface Transition / Branch Inventory`, and `3.0 Goal Flow Graph inventory` before visible Figma drawing when practical.
+   - Goal Flow Graph inventory -> `3.0 Feature flow`.
    - Player-visible feature groups, states, and lifecycle stages -> `4.0 Feature details`.
    - Missing rules, contradictions, inferred decisions, and design risks -> visible `AI待确认` notes.
    - Red-dot rules -> only when in scope, and only as player-visible entry/status/clearing behavior or concise notes.
@@ -118,7 +137,7 @@ Generated interaction content is high-freedom inside allowed areas:
    - Use simple `1334x750` mobile-game wireframes unless the source/user says otherwise.
    - One wireframe represents one player-visible state. Split confirmation, loading/performance, success/failure, refreshed return, and mail/claim states when the player would see them separately.
    - Left wireframes must be plausible player-visible interface states, not rule cards, mechanism summaries, backend diagrams, permission matrices, refresh schedules, or lists of feature names.
-   - Right-side notes must use cloned template label/note styling. `AI待确认` must be visible, red warning styled, and attached to the affected module/interface.
+   - Right-side notes must use cloned template label/note styling. `AI待确认` must stay on a template-derived label/component, use a red-series background with white text for strong contrast, remain visibly readable at a glance, and attach to the affected module/interface.
    - Extend board height and move later content/footer down as content grows.
 
 8. Verify before delivery.
@@ -134,7 +153,7 @@ Default Figma board:
 
 - `1.0 Design overview`: product intent, target players, desired experience/outcome, and version/source records in the fixed asymmetric template layout.
 - `2.0 Adaptation plan`: preserve designer-owned placeholders unless adaptation is explicitly in scope.
-- `3.0 Feature flow`: main player flow plus secondary player flows when they have distinct goals, entries, operation loops, and return/destinations.
+- `3.0 Feature flow`: Goal Flow Graphs for top-level player goals; each graph uses template flow style plus optional designer flow grammar when needed.
 - `4.0 Feature details`: major function modules; minor function subtitles; interface/state explanations with left wireframes and right notes.
 - Optional `5.0`: only for content truly outside overview, adaptation, flows, and feature details.
 
@@ -143,13 +162,16 @@ Feature-detail modules must contain:
 - Template-cloned module header badges.
 - One or more player-visible `1334x750` wireframes inside the cloned left frame area.
 - Right-side notes with cloned labels above and numbered explanation lines below.
-- Visible `AI待确认` notes for missing rules, contradictions, decision gaps, motivation gaps, dead-end risk, cognitive load, or unclear recovery.
+- Visible `AI待确认` notes for missing rules, contradictions, decision gaps, motivation gaps, dead-end risk, cognitive load, unclear recovery, value expression, or loop closure.
 
 ## Non-Negotiables
 
-- Do not run `render-brief-board.js`, generated renderer scripts, template-lock scripts, or validator scripts as the default path.
+- Do not run legacy renderer scripts, generated renderer scripts, template-lock scripts, or validator scripts as the default path.
 - Do not freehand redraw the template shell. If cloning/slot/prototype use is blocked, stop and report the blocker.
 - Do not let template placeholder count or position limit flow count, flow order, or interface quantity.
+- Do not inherit the template example topology: 7-node strips, single-line paths, fixed branch shape, and placeholder order are not content rules.
+- Do not pass AI pending QA by presence count; coverage must follow player goals and high-risk decisions.
+- Do not expose internal taxonomy such as representation ownership, mechanism ownership, surface classification, backend classification, template reasoning, inventory, gate, validator, or renderer in visible right-side notes.
 - Do not create standalone screens for backend refresh, reset, settlement, quota update, or mechanism-order rules; localize them to the owning interface, toast, note, or source-defined external surface.
 - Do not draw unrelated versions of the same interface; use a stable frame for tabs/modes/states, or classify the surface as different.
 - Do not summarize PRD text into Figma. Translate planning facts into product intent, player flows, player-visible UI states, designer notes, and design risks.

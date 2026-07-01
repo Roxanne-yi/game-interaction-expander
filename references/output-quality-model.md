@@ -11,6 +11,8 @@ Before creating Figma content, derive an internal blueprint for every important 
 For each module, answer:
 
 - Source fact class: which rules are confirmed facts/preconditions, which are interaction gaps, which are feature-design risks, and which are boundary QA.
+- Surface Transition / Branch Inventory: which primary CTAs, branch triggers, external jumps, close/back actions, blocking/failure triggers, passive/system consequences, and destination/result surfaces change the player flow; which local controls stay inside `4.0`.
+- 4.0 Surface Preservation: which player-visible local overlays, modals, pickers, result/toast states, external surfaces, tab states, and component states stay in `4.0` even if they are not promoted to `3.0`.
 - Player goal: what is the player trying to accomplish here?
 - Surface type: main interface, secondary/tertiary interface, other-system surface, tab, mode, modal, list, detail, result, HUD, external entry, or feedback state.
 - Entry and exit: where the player comes from, and where they return or continue.
@@ -56,87 +58,83 @@ If the content is only refresh/reset/settlement/order/quota/limit logic, it is n
 
 If not, move the content to right-side notes, support diagrams, state matrices, or AI follow-up questions. Do not disguise mechanism summaries, refresh schedules, ownership rules, permission matrices, backend logic, or QA lists as game screens.
 
-## 4. Flow Ownership Gate
+## 4. Goal Flow Graph Gate
 
-Feature flow must be organized by player goals, not PRD section order.
+Feature flow must be organized as Core Play Path Graphs: player-operated paths that carry feature value. It must not be organized by PRD section order, mechanism themes, template placeholders, or linear step strips.
 
-Before judging the board, confirm there is a clear internal `Flow inventory` and `Screen inventory`: each player-visible `3.0` node maps to a `4.0` interface/state, while non-screen mechanisms are intentionally classified as notes, external dependencies, or `AI待确认`.
+Before judging the board, confirm there is a clear `4.0 Surface / Note Inventory`, `Surface Transition / Branch Inventory`, and `Goal Flow Graph inventory`. Every top-level graph must pass the `Top-level Goal Promotion Gate`; every player-visible `3.0` node maps to a `4.0` surface/player moment; every primary CTA or branch trigger is represented as a transition, local state, note, or `AI待确认`; and local controls are not promoted into flow nodes.
 
-The main flow should usually follow:
+`Top-level Goal Promotion Gate`: a top-level `3.0` graph must pass all Core Play Path checks: player actively enters a concrete surface/scene; player performs a sequence of operations or choices rather than only receiving a system consequence; the path has a visible CTA chain between surfaces (`entry -> operation -> decision/confirm -> feedback/result -> return/continue`); it directly carries the feature core play value; and omitting it would make designers unable to understand how the feature is played. Existing-system entries, prerequisite setup, passive compensation, backend schedules, limit explanations, one-off notifications, and pure failure reminders are not top-level graphs unless the source makes them an active player-operated loop.
 
-`entry -> main/key interface -> key operation -> validation/confirmation/resource consumption -> feedback/result/reward -> return/loop`
+Designer Flow Grammar is available when the goal needs it: diamond decisions, branch lines, merges, loops, dashed optional routes, mode lanes, external-surface nodes, and nested sub-flow nodes. These units are optional, not required decoration. Use them only to clarify the player goal graph.
+
+Do not create a top-level graph for refresh, reset, settlement, permission, quota, validation, or backend rules. Attach them as decision nodes, branches, local states, toasts, external surfaces, right-side notes, or `AI待确认` under the owning player goal.
+Split graph check: if player motivation, entry/source surface, operating perspective, decision basis, or value proposition changes, split the path even when the final reward or backend action is shared.
 
 Fail the flow if result, reward, or benefit delivery appears before validation, confirmation, or resource/cost consumption.
 
-Branch flows are only for player-operated subflows with their own goal, entry, operation loop, and destination. Examples include record/history, request/wish, receive/claim, save/manage, external jump, social collaboration, detail inspection, and secondary/tertiary interfaces that continue the task.
+Fail the board if:
 
-Do not promote boundary handling into `other flows` by default. Network failure, insufficient resource, refresh exception, timed reset, missing config, periodic update, and backend settlement usually belong beside the owning interface as states, feedback, or AI follow-ups unless they create a player-operated recovery path.
+- A `3.0` top-level flow does not pass the `Top-level Goal Promotion Gate`.
+- A top-level graph is mainly a system pressure, passive reminder, fallback compensation, reset/settlement rhythm, prerequisite setup, or risk avoidance topic rather than a concrete player-operated core path.
+- Multiple player goals are compressed into one template-like horizontal path.
+- Distinct paths with different motivation, entry/source surface, operating perspective, decision basis, or social/economic value are merged only because they share a final reward or backend action.
+- A template-like 6-7 node path appears while the source has multiple distinct player goals.
+- Template node count, placeholder position, or example topology appears to determine the real flow.
+- Flow titles or node labels read as mechanism themes or page taxonomy instead of player-facing actions/moments.
+- A true action branch, decision, failure, or return is omitted to fit the template.
+- A fake decision/failure is added only to satisfy a format.
+- `3.0` uses interface cards for conditions or judgments.
+- A primary CTA or branch trigger that changes destination, feedback, recovery, or loop closure is missing from `3.0` and not intentionally localized in `4.0` notes.
+- A local control such as filtering, sorting, dropdown choice, item selection, quantity adjustment, or selected state is promoted into a `3.0` flow node without opening a new surface or branch.
+- A player-visible overlay/modal that carries confirmation, submit, result trigger, failure recovery, destination change, or loop closure is incorrectly dropped from `3.0`; or a local picker/help/filter overlay is incorrectly promoted despite returning to the same step.
+- Existing-system entry, prerequisite setup, passive compensation, backend schedule, limit explanation, or one-off reminder is given the same top-level weight as a core player-operated loop.
+- A `3.0` interface node cannot map to one `4.0` surface/player moment.
+- `3.0` simplification causes `4.0` to lose player-visible local surfaces, overlays, modals, results, toasts, tab states, component states, or external surfaces.
+- Refresh, reset, settlement, permission, quota, validation, or backend rules are promoted to top-level player flows.
+- A left wireframe contains designer-facing explanation instead of player-facing UI.
+- A left wireframe is a state collection screen rather than one player moment; one frame = one player moment is violated.
+- Mutually exclusive feedback states appear in one frame.
+- Modal, toast, mail, HUD, feature panel, result screen, or other different surfaces are merged into one fake surface.
+- Tabs, modes, or local states of the same interface use unrelated frame structures without being classified as different surfaces.
+- Passive/system consequences such as scheduled reminder, periodic compensation, external mail fallback, or backend refresh are placed inside an unrelated active operation result screen.
+- Right-side notes are required to understand what the left UI is.
+- Department labels are edited as text instead of component variants/properties.
+- The `AI待确认` label is not visibly readable, lacks a red-series visible label/arrow/vector background with white high-contrast text, or has red text on a red marker/body that reduces readability.
 
-Flow readability must follow the template pattern:
+## 5. Right-Side Note Contract
 
-- Each step is readable as `external node title -> grey action card`, not as a generic card with a title buried inside.
-- Main flow should scan horizontally in one line when space allows; branch flows should be grouped separately without pretending to be the same sequence.
-- Template node count and placeholder position must not limit flow count, branch count, or causal order.
-- Flow cards should be short enough to understand the journey at a glance. Detailed validation, state sets, and exception rules belong in feature-detail modules.
+Right-side notes are for interaction designers, not for the agent. They should read like designer-facing interaction-spec content, not internal reasoning.
 
-## 5. Right-Side Explanation Gate
+Each note group should answer only:
 
-Right-side notes should read like designer-facing interaction-spec content, not AI reasoning.
+- What this interface/state shows.
+- What the player can do.
+- What feedback/result appears.
+- Where the player goes next or how they recover.
+- What design decision remains unresolved, if any.
 
-They should explain:
+Do not expose analysis taxonomy such as representation ownership, mechanism ownership, surface classification, backend classification, validation ownership, template reasoning, inventory, gate, validator, renderer, or similar internal process terms.
 
-- What this interface or module does.
-- What regions/modules it contains.
-- What states exist.
-- What conditions trigger state changes.
-- What happens after player actions.
-- What feedback, toast, modal, animation, audio, VFX, lockout, refresh, or return behavior is needed.
-- What PRD gaps require confirmation.
+Right-side notes must reuse template `note label / note box` styling: discipline label above, numbered explanation lines below. Ordinary notes and `AI待确认` must be visually separated; `AI待确认` uses the template-derived red warning label/style with white high-contrast text.
 
-Right-side notes should be visual when state differences are visual:
+Right-side notes may include compact local state examples when state differences are visual, but those examples must trace back to the owning component from the left wireframe. They support explanation; they do not replace player-screen frames.
 
-- For multi-state modules, add compact local UI examples beside the relevant note.
-- Local examples must mirror the owning component from the left wireframe: same card/button/node/slot/HUD/modal anatomy at smaller scale.
-- Do not create unrelated generic state boxes that cannot be matched back to the left-side interface.
-- Local examples support the explanation; they do not replace full player-screen frames.
+## 6. AI Pending Coverage Rule
 
-Multi-state state-strip gate:
+`AI待确认` should help interaction designers avoid doing secondary planning from scratch. It must not devolve into only edge-case QA, and it must not pass by board-level presence count.
 
-- If one component has multiple meaningful states, the module is incomplete until the right-side note includes a local state strip or an equivalent image-plus-text component example.
-- The strip should make the state change visible at component level, not only describe it in prose. Typical targets are item cards, rows, buttons, material slots, reward nodes, progress nodes, HUD icons, modal actions, toast feedback, and red-dot entries.
-- Judge the strip by traceability: can a reader point to the left-side component and immediately recognize that the right-side examples are variants of the same element? If not, redraw them.
-- Generic status cards count as a failure even if their text is correct, because they do not reduce the designer's work of translating states into interface expression.
-- The strip must pass a layout sanity check: no child text/UI overflows into nearby note text, and the card does not carry long rule descriptions that should be written in the note body.
-- Do not confuse component states with player-operation stages. A multi-state strip is for the same component changing appearance or availability. If the content is a sequence of player-visible stages or branches after an action, model it as separate frames, a compact flow, or module notes instead.
-- If multiple wireframes represent tabs, modes, or states of the same interface, the stable frame should remain consistent; if the frame changes substantially, it should be classified as a different surface.
+Before delivery, first run an `AI Risk Mining Pass`, then select and attach the strongest questions. Check each top-level player goal, key surface transition, blocking/failure/recovery, passive-system impact, value expression, and high-risk decision/reward/return point for `AI待确认` needs across:
 
-Avoid exposing AI method, internal chains, config tables, raw field names, backend-only issues, or "left side/right side should" instructions.
+- Player motivation: why the player wants to do this and whether system value is visible.
+- Decision basis: whether comparison, recommendation, sorting, pricing validity, reward preview, or reason copy is enough to decide.
+- Dead-end/recovery: wasted visits, blocked actions, no return path, hidden preconditions, failure without recovery.
+- Cognitive load: too many rules, unclear hierarchy, late rule disclosure, conflicting surfaces.
+- Value expression: whether reward, growth, social, collection, economy, or efficiency motivation is visible.
+- Feedback/loop closure: whether success, failure, wait, consumed, refreshed, claimed, returned, or recovered state is clear.
 
-## 6. AI Follow-Up Gate
-
-AI follow-ups should help interaction designers avoid doing secondary planning from scratch. They must not devolve into only edge-case QA.
-
-Prioritize:
-
-1. Logic completion: missing entrance, state, precondition, result, return path, lifecycle, cross-surface update, or state transition.
-2. Interaction gap after confirmed facts: how source-stated gates, permissions, limits, costs, quotas, and dependencies are communicated, disabled, guided, recovered from, refreshed, or returned from.
-3. Feature loop: why the player acts, what they gain, how the system value is visible, whether the player has enough basis to decide, and whether reward, growth, social, collection, economy, or efficiency motivation closes.
-4. Design reasonableness: use the absorbed game interaction principles to question whether the design is understandable, usable, and aligned with its product purpose.
-5. Boundary QA: failure, refresh, empty state, repeated tap, network, rollback, capacity, sync, exception recovery.
-
-For design reasonableness, ask principle-driven questions such as:
-
-- Does the feature match the target player's motivation, cognition, and operation habits?
-- Are rules visible, predictable, and feedback-rich before the player fails?
-- Is the complexity appropriate for the player's stage and task urgency?
-- Is backend/system complexity being pushed onto the player as mental burden?
-- Is there a lighter, clearer, fewer-step way to achieve the same design goal?
-- Should information be layered, hidden until needed, recommended by default, folded, filtered, batched, or automated?
-- Does the design create avoidable pressure such as forced social behavior, forced memory, forced comparison, repeated confirmation, or excessive manual management?
-
-Never ask about a scenario that the PRD already forbids, gates, or resolves. Ask about the next undefined interaction decision after the source fact is locked.
-
-Do not flatten facts and flaws. A PRD-stated prerequisite is a confirmed fact first; an AI follow-up should ask where and how players learn or recover from it. A source-backed design can become a feature-design risk only when it weakens the product goal, player motivation, decision basis, operation loop, or system value.
+If no `AI待确认` is added for a goal or risk point, the source must already resolve those concerns clearly. Fail the board if there is only one generic `AI待确认` while multiple player goals or high-risk branches remain under-discussed. Never ask about a scenario that the PRD already forbids, gates, or resolves; ask about the next undefined interaction decision after the source fact is locked.
+Low-risk surfaces can have no AI item; high-risk surfaces can have several. Fail if independent motivation, decision-basis, recovery, value-expression, or loop-closure risks are compressed into one vague question because of template slot or layout pressure. Use separate numbered AI items when risks are independent.
 
 ## 7. Source and Scope Gate
 
@@ -160,6 +158,7 @@ Required:
 - Preserve adaptation placeholders and their dimensions.
 - Preserve background, footer, logo decoration, typography, component style, and spacing rhythm.
 - Preserve template information hierarchy. For feature-detail modules, keep the template's main title, note badge, subtitle, note badge, and interface-name row as separate visual roles.
+- For AI pending note components, inspect visible child fills and screenshot result, not only parent frame properties. The warning label, arrow/vector shape, body emphasis when used, and numbered marker must read as red warning styling with white text where applicable.
 - Do not replace template module headers with custom compact strips, numbered table rows, or merged title/description bars.
 - Use smart-label/tag components when available.
 - Keep modules and right-side notes non-overlapping.
@@ -180,9 +179,9 @@ Ask whether the board can be used as a designer's next-step brief:
 - Are player screens truly operable wireframes, not rule cards, process cards, or backend diagrams?
 - Are visible controls, states, and feedback drawn instead of only described in text?
 - Is function ownership correct: main interface, secondary interface, helper operation, modal, result, external surface, and support material are not mixed together.
-- Do flow/screen inventories match: every player-visible flow node has a `4.0` interface/state, and mechanisms are not disguised as screens?
+- Do Goal Flow Graph and 4.0 Surface / Note inventories match: every player-visible flow node has a `4.0` surface, and mechanisms are not disguised as screens?
 - Does the flow include entry, operation, validation, result, return, and loop where needed?
-- Do AI follow-ups include logic completion, feature loop, and design reasonableness before boundary QA?
+- Do `AI待确认` items cover player goals and high-risk decisions before boundary QA?
 - Are template fidelity, smart labels, spacing, and Figma composition clean enough that the viewer will focus on feature understanding instead of output mistakes?
 
 ### Player Review

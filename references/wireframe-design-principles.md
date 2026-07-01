@@ -11,16 +11,31 @@ Use this reference before generating Figma wireframes. The goal is not to replac
 - The right side remains designer-facing interaction notes: what the interface is, what modules it contains, what states exist, what conditions trigger changes, what happens after player actions, what feedback appears, and what needs confirmation.
 - Do not expose this reference's method as visible labels on the board.
 
+### Left / Right Ownership
+
+Left wireframes own UI structure, operation controls, player-facing information, visible states, feedback layers, and numbered callout anchors. Right notes own interaction details, function rules, state explanations, trigger/condition/result logic, implementation dependencies, design risks, and `AI待确认`.
+
+Right-side notes are for interaction designers, not for the agent. They must use template note label / note box styling and answer what the interface shows, what the player can do, what feedback/result appears, where the player goes next or recovers, and what decision remains unresolved. Do not expose internal taxonomy such as representation ownership, mechanism ownership, surface classification, backend classification, template reasoning, inventory, gate, validator, or renderer.
+
+Left wireframes may contain only player-facing copy. If the text is written for the designer, planner, programmer, or AI reader, move it to right notes.
+
+Use numbered callout anchors in the wireframe when a rule needs explanation. Put the explanation in the right note; do not put long rule text inside the game frame.
+
 ## 2. Internal Closure Scan
 
-Use `trigger -> rule -> feedback -> loop` internally to check whether the PRD has enough interaction information.
+Use `trigger -> rule -> feedback -> loop` internally to check whether the PRD has enough interaction information. Also build a `Surface Transition / Branch Inventory` before flow drawing: only primary CTAs, branch triggers, modal/result openings, external jumps, close/back actions, and blocking/failure triggers enter `3.0`; filters, sorting, dropdowns, item selection, quantity changes, and local selected states stay in `4.0` unless they open a new surface or branch.
 
 - Trigger: where, when, and why the player enters; what control starts the operation; whether the entry is visible, locked, highlighted, or red-dotted.
 - Rule: what can be done, what cannot be done, required preconditions, order, quota, cost, permission, ownership, time window, and whether those rules are visible before the player fails.
 - Feedback: immediate response after tap, success, failure, animation, toast, modal, state update, refreshed data, reward reveal, red-dot clearing.
 - Loop: where the player returns, what changed for next time, whether progress persists, whether the system gives a reason to come back, and whether external surfaces stay in sync.
 
-This scan feeds AI follow-ups; it is not the right-side note format.
+This scan feeds AI follow-ups; it is not the right-side note format. If a primary CTA or branch trigger leads to a different destination, feedback, failure/recovery, or loop closure, represent it as a flow branch or explicit local state/note. If an interaction only changes local selection, sorting, quantity, or display state, keep it inside the owning wireframe.
+Overlay/modal surfaces are not automatically local-only. Judge them by transition role: a confirmation, submit dialog, result-triggering modal, failure-recovery modal, or destination-changing overlay can enter `3.0`; a picker/help/filter overlay that returns to the same stage stays in `4.0` but still needs a visible wireframe or overlay state.
+
+### AI Risk Mining Pass
+
+Before choosing visible `AI待确认` notes, mine candidates from product intent, key surface transitions, blocking/failure/recovery, passive-system impact, and interface expression. Look for motivation gaps, weak decision basis, hidden value, wasted visit/action, irreversible cost, trust conflicts, unclear asset changes, late feedback, missing return/recovery, and cross-surface handoff ambiguity. Then attach only the strongest non-duplicate questions to affected surfaces.
 
 ## 3. AI Follow-Up Priority
 
@@ -36,7 +51,7 @@ Ask about the next undefined decision after source facts are locked. Do not ask 
 
 ## 4. Player-Screenshot Test
 
-Every `1334x750` game frame should look like a plausible state a player could see, tap, read, close, wait on, or return to.
+Every `1334x750` game frame should look like a plausible state a player could see, tap, read, close, wait on, or return to. Use this rule: one frame = one player moment.
 
 Allowed inside game frames:
 
@@ -53,12 +68,24 @@ Not allowed as a game frame:
 - source comparison diagrams
 - QA checklists
 - text blocks that explain the feature to designers
+- operation-instruction sentences such as `点击...后...`, `如果...则...`, `需要...`, `读取配置...`, `服务端...`, `策划规则...`, or `实现逻辑...` unless that exact text is player-facing UI copy
 
 If mechanism content matters, anchor it to a visible UI result: disabled/hidden/locked entry, updated value, countdown, refreshed list, modal, toast, red dot, or return state.
 
 When repairing or enriching an existing wireframe, replace the weak part with a better player-visible state instead of adding explanatory side panels inside the game screen. Permission summaries, return instructions, validation matrices, and mechanism notes belong on the right side unless they are actual game UI.
 
 Keep each frame state-consistent. Do not show one current state while also showing feedback for a different precondition in the same frame. If both states matter, split them into separate frames or show the alternate condition as a compact right-side note/state example.
+
+### Surface Ownership Gate
+
+Before drawing a frame, classify the content as `player interface`, `modal`, `toast/local tip`, `result screen`, `external surface`, `component state`, or `right-note-only`. Draw a separate wireframe only when the player's visible task changes: choose, compare, confirm, wait, receive result, recover from failure, return, or continue. Do not put mutually exclusive moments into the same frame.
+
+Do not separately draw formula changes, backend refresh, quota reset, ownership rules, config/algorithm details, or system execution order unless they form a clear player-visible surface. Localize them to the owning interface as a small tip, changed value, disabled reason, toast, red dot, source-defined external surface, or right-side note.
+
+Do not merge different surfaces into one wireframe. Toast, modal, feature panel, mail page, inventory page, HUD, and result screen stay separate unless the source explicitly nests them.
+`3.0` simplification never deletes `4.0` surfaces. If a surface is demoted from flow because it is local or passive, still draw it in `4.0` when it is player-visible; otherwise attach it to the right-side notes or `AI待确认`.
+
+The left frame must be understandable without the right notes. If the right notes are needed to identify the surface, operation, current state, or next action, redraw the left frame.
 
 ## 5. Useful and Usable
 
@@ -134,10 +161,12 @@ Consistency reduces learning cost and prevents designers from doubting the wiref
 ## 10.1 Stable Frame For Same Interface States
 
 For tabs, modes, and local states of the same interface, keep the stable frame unchanged: title bar, close/back behavior, navigation location, main column structure, and fixed operation area.
+Stable frame means the player recognizes it as the same interface at a glance. Keep the same title area, tab location, left/right column relationship, core list/detail structure, and primary action zone unless the source defines a different surface.
 
 Only the tab-controlled content area, state area, overlay, toast, disabled reason, or feedback layer should change. If the frame changes substantially, classify it as a different surface instead of drawing unrelated versions of the same interface.
 
 Background mechanisms such as refresh, reset, settlement, forced order, price/quota/limit update, or backend validation should not become large standalone screens. Localize them to the owning interface as small tips, refreshed values, disabled reasons, toast, red-dot state, source-defined external surface, or right-side note.
+Do not mix passive/system consequences into an active operation result screen unless that consequence is directly caused by the current action. Passive reminders, periodic compensation, external mail fallback, and scheduled resets should remain local tips, source-defined external surfaces, right notes, or AI risks.
 
 ## 10.2 Low-Fidelity Visual Language
 
@@ -149,7 +178,7 @@ Wireframes are structural tools, not visual proposals.
 - Do not introduce arbitrary blue, purple, or gradient fills to make the wireframe look "designed"; they reduce readability and make designers question the mockup instead of reading the interaction.
 - Keep modals neutral: dimmed gray mask, white or very-light panel, dark title/body, one clear primary action in the accent color, and secondary/close actions in gray.
 - Keep local UI examples visually consistent with the owning wireframe component and the same grayscale/accent rule.
-- Reserve high-emphasis red for AI follow-up risks, errors, or blocking warnings, not ordinary UI decoration.
+- Reserve high-emphasis red for AI follow-up risks, errors, or blocking warnings, not ordinary UI decoration. For AI follow-up labels, use a red-series label background with white text so the warning is readable at a glance.
 
 ## 11. Feedback, Error Prevention, and Recovery
 
